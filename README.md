@@ -1,3 +1,14 @@
+## TODO
+
+- [x] Tutor detail profile
+- [x] Update badge for tutor function
+- [ ] Them phan video demo, bang cap trong trang chi tiet tutor
+- [ ] Quan ly account
+
+
+
+
+
 # Ant Design Pro
 
 This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.

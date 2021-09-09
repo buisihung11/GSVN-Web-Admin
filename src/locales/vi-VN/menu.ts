@@ -16,4 +16,5 @@ export default {
   'menu.exception.500': '500',
   'menu.form': 'Form',
   'menu.tutor': 'Giảng viên',
+  'menu.order': 'Đơn hàng',
 };

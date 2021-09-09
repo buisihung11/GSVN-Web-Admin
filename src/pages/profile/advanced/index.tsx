@@ -94,12 +94,9 @@ const description = (
   <RouteContext.Consumer>
     {({ isMobile }) => (
       <Descriptions className={styles.headerList} size="small" column={isMobile ? 1 : 2}>
-        <Descriptions.Item label="创建人">曲丽丽</Descriptions.Item>
-        <Descriptions.Item label="订购产品">XX 服务</Descriptions.Item>
-        <Descriptions.Item label="创建时间">2017-07-07</Descriptions.Item>
-        <Descriptions.Item label="关联单据">
-          <a href="">12421</a>
-        </Descriptions.Item>
+        <Descriptions.Item label="Tên giảng viên">Nguyen van A</Descriptions.Item>
+        <Descriptions.Item label="Giới tính">Male</Descriptions.Item>
+        <Descriptions.Item label="SDT">09181818181</Descriptions.Item>
         <Descriptions.Item label="生效日期">2017-07-07 ~ 2017-08-08</Descriptions.Item>
         <Descriptions.Item label="备注">请于两个工作日内确认</Descriptions.Item>
       </Descriptions>

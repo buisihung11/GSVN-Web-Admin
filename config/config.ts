@@ -280,9 +280,24 @@ export default defineConfig({
       path: '/tutor',
       icon: 'user',
       name: 'tutor',
-      component: './tutor',
+      routes: [
+        {
+          path: '/tutor/:tutorId',
+          component: './tutor/[tutorId]',
+        },
+        {
+          path: '/tutor',
+          exact: true,
+          component: './tutor',
+        },
+      ],
     },
-
+    {
+      path: '/orders',
+      icon: 'unordered-list',
+      name: 'order',
+      component: './order',
+    },
     {
       path: '/',
       redirect: '/dashboard/analysis',
