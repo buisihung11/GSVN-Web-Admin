@@ -1,7 +1,17 @@
 import { TTutor } from '@/type/tutor';
 import { PageContainer, RouteContext } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { Avatar, Button, Card, Descriptions, Divider, Space, Statistic, Typography } from 'antd';
+import {
+  Avatar,
+  Button,
+  Card,
+  Descriptions,
+  Divider,
+  Space,
+  Statistic,
+  Typography,
+  List,
+} from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
 import faker from 'faker';
 
@@ -13,22 +23,32 @@ const extra = (tutor: TTutor) => (
 );
 
 const description = (tutor: TTutor) => (
-  <Space direction="vertical" align="center">
-    <Avatar
-      shape="circle"
-      style={{
-        width: 104,
-        height: 104,
-      }}
-      src={tutor.avatar?.url}
-      alt={tutor.fullName}
-    />
-    <Typography>
-      {tutor.gender} -{' '}
-      <Typography.Title level={5} style={{ display: 'inline-block' }}>
-        {tutor.fullName}
-      </Typography.Title>
-    </Typography>
+  <Space size="large">
+    <Space style={{ width: 200 }} direction="vertical" align="center">
+      <Avatar
+        shape="circle"
+        style={{
+          width: 104,
+          height: 104,
+        }}
+        src={tutor.avatar?.url}
+        alt={tutor.fullName}
+      />
+      <Typography>
+        {tutor.gender} -{' '}
+        <Typography.Title level={5} style={{ display: 'inline-block' }}>
+          {tutor.fullName}
+        </Typography.Title>
+      </Typography>
+    </Space>
+    <Descriptions size="small" column={1}>
+      <Descriptions.Item label="Đường link">
+        <a target="_blank" href={`https://gsvn-deploy.vercel.app/tutor/${tutor.id}/${tutor.slug}`}>
+          {tutor.fullName}
+        </a>
+      </Descriptions.Item>
+      <Descriptions.Item label="Giới thiệu">{tutor.about}</Descriptions.Item>
+    </Descriptions>
   </Space>
 );
 
@@ -36,7 +56,6 @@ const tutorInfoSection = (tutor: TTutor) => (
   <Descriptions title="Thông tin liên lạc" size="small" column={2}>
     <Descriptions.Item label="SDT">{tutor.phone}</Descriptions.Item>
     <Descriptions.Item label="Email">{tutor.email}</Descriptions.Item>
-    {/* <Descriptions.Item label="Giới thiệu">{tutor.about}</Descriptions.Item> */}
     <Descriptions.Item span={2} label="Địa chỉ">
       {tutor.address}
     </Descriptions.Item>
@@ -67,6 +86,31 @@ const teachingInfoSection = (tutor: TTutor) => (
         },
       ]}
     />
+  </>
+);
+
+const certificateSection = (tutor: TTutor) => (
+  <>
+    <Descriptions layout="vertical" title="Video giới thiệu và bằng cấp" size="middle" column={2}>
+      <Descriptions.Item label="Video giới thiệu">
+        <video controls style={{ width: '100%', height: '100%' }}>
+          <source
+            src="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"
+            type="video/mp4"
+          ></source>
+        </video>
+      </Descriptions.Item>
+      <Descriptions.Item label="Bằng cấp" style={{ paddingLeft: '2rem' }}>
+        <List
+          dataSource={['Bang-cap1.pdf', 'Bang-cap1.pdf', 'Bang-cap1.pdf']}
+          renderItem={(item) => (
+            <List.Item>
+              <a href="#">{item}</a>
+            </List.Item>
+          )}
+        />
+      </Descriptions.Item>
+    </Descriptions>
   </>
 );
 
@@ -110,13 +154,15 @@ const TutorDetailPage = () => {
     teachAddress: '',
     teachDistrict: '',
     teachCity: '',
-    slug: '',
+    slug: faker.lorem.slug(4),
     coursings: [
       {
         title: faker.music.genre(),
+        coursingLevel: faker.random.alphaNumeric(12),
       },
       {
         title: faker.music.genre(),
+        coursingLevel: faker.random.alphaNumeric(12),
       },
     ],
   };
@@ -131,6 +177,8 @@ const TutorDetailPage = () => {
         {tutorInfoSection(tutor)}
         <Divider style={{ marginBottom: 32 }} />
         {teachingInfoSection(tutor)}
+        <Divider style={{ marginBottom: 32 }} />
+        {certificateSection(tutor)}
       </Card>
     </PageContainer>
   );

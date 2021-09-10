@@ -163,6 +163,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         history.push(loginPath);
       }
     },
+    breadcrumbRender: (routers = []) => [
+      {
+        path: '/',
+        breadcrumbName: 'Trang chủ',
+      },
+      ...routers,
+    ],
     links: isDev
       ? [
           <Link to="/umi/plugin/openapi" target="_blank">
