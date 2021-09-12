@@ -17,4 +17,5 @@ export default {
   'menu.form': 'Form',
   'menu.tutor': 'Giảng viên',
   'menu.order': 'Đơn hàng',
+  'menu.account': 'Tài khoản',
 };

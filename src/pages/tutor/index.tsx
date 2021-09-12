@@ -97,7 +97,10 @@ const TutorListPage = () => {
   ];
   return (
     <PageContainer>
-      <ProTable dataSource={TUTOR_LISTS} columns={goodsColumns} />
+      <ProTable
+        dataSource={TUTOR_LISTS}
+        columns={goodsColumns}
+      />
     </PageContainer>
   );
 };

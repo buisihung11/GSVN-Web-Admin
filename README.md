@@ -2,7 +2,10 @@
 
 - [x] Tutor detail profile
 - [x] Update badge for tutor function
-- [ ] Them phan video demo, bang cap trong trang chi tiet tutor
+- [x] Them phan video demo, bang cap trong trang chi tiet tutor
+
+## 11/09/2021
+
 - [ ] Quan ly account
 
 

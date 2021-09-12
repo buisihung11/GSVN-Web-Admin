@@ -299,6 +299,12 @@ export default defineConfig({
       component: './order',
     },
     {
+      path: '/accounts',
+      icon: 'user',
+      name: 'account',
+      component: './account',
+    },
+    {
       path: '/',
       redirect: '/dashboard/analysis',
     },

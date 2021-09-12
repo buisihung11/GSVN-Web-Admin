@@ -9,12 +9,14 @@ import { Button, Divider, Modal } from 'antd';
 import faker from 'faker';
 
 const valueEnum = {
-  preferNo: { text: 'Tất cả', status: 'Default' },
+  null: { text: 'Tất cả', status: 'Default' },
+  preferNo: { text: 'Khác', status: 'Default' },
   online: { text: 'Online', status: 'Processing' },
   offline: { text: 'Offline', status: 'Default' },
 };
 
 const orderEnum = {
+  null: { text: 'Tất cả', status: 'default' },
   [OrderStatus.NEW]: { text: 'Mới', status: 'warning' },
   [OrderStatus.ADMIN_CONFIRMED]: { text: 'Admin đã xác nhận', status: 'processing' },
   [OrderStatus.TUTOR_CONFIRMED]: { text: 'Tutor đã xác nhận', status: 'processing' },
@@ -192,6 +194,7 @@ const OrderListPage = () => {
     {
       title: 'Hành động',
       width: 150,
+      valueType: 'option',
       align: 'center',
       fixed: 'right',
       render: (_, data) => {
