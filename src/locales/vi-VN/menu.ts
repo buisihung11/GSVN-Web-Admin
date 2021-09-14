@@ -18,4 +18,5 @@ export default {
   'menu.tutor': 'Giảng viên',
   'menu.order': 'Đơn hàng',
   'menu.account': 'Tài khoản',
+  'menu.blog-post': 'Bài viết',
 };

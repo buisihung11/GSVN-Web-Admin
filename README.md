@@ -6,8 +6,8 @@
 
 ## 11/09/2021
 
-- [ ] Quan ly account
-- [ ] Qaun ly blogpost
+- [x] Quan ly account
+- [ ] Quan ly blogpost
 
 
 
