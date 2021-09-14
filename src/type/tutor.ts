@@ -1,9 +1,10 @@
+import { TutorStatus } from './constants';
 import { TCourse } from './course';
 import { TImage } from './image';
 
 export enum BadgeType {
   DIAMOND = 'Kim cương',
-  GOLD = 'Vàng'
+  GOLD = 'Vàng',
 }
 
 export type TBadgeType = {
@@ -35,6 +36,7 @@ export type TTutor = {
   slug: string;
   avatar?: Partial<TImage>;
   coursings: Partial<TCourse>[];
+  status: TutorStatus;
 
   totalHourRemain: number;
   totalReview: number;

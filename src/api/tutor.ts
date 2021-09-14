@@ -1,3 +1,4 @@
+import { TutorStatus } from '@/type/constants';
 import { TCreateOrderRequest, TOrder } from '@/type/order';
 import { TTutor, TTutorRegister } from '@/type/tutor';
 import request from '@/utils/axios';
@@ -10,11 +11,15 @@ const registerTutor = (values: TTutorRegister) => request.post('/tutors/register
 const bookTutor = (tutorId: number, values: TCreateOrderRequest) =>
   request.post<TOrder>(`/tutors/${tutorId}/orders`, values);
 
+const updateTutorStatus = (tutorId: number, data: { detail: string; status: TutorStatus }) =>
+  request.put<any>(`/tutors/${tutorId}`, data);
+
 const tutorApi = {
   ...generateAPIWithPaging<TTutor>('tutors'),
   registerTutor,
   bookTutor,
-  getTutorProfile
+  getTutorProfile,
+  updateTutorStatus,
 };
 
 export default tutorApi;

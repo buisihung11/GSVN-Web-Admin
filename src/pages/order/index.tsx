@@ -1,12 +1,14 @@
+import { useState } from 'react';
 import { OrderStatus, TOrder } from '@/type/order';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import { DrawerForm } from '@ant-design/pro-form';
+import { DrawerForm, ModalForm, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Button, Divider, Modal } from 'antd';
+import { Alert, Button, Divider, Modal } from 'antd';
 import faker from 'faker';
+import orderApi from '@/api/order';
 
 const valueEnum = {
   null: { text: 'Tất cả', status: 'Default' },
@@ -25,7 +27,7 @@ const orderEnum = {
   [OrderStatus.CLOSED]: { text: 'Đã đóng', status: 'error' },
 };
 
-const mockData = [...new Array(4)].map<TOrder>((_, idx) => ({
+const mockData = [...new Array(20)].map<TOrder>((_, idx) => ({
   id: idx + 1,
   createdAt: faker.date.past(),
   tutor: {
@@ -64,18 +66,15 @@ const mockData = [...new Array(4)].map<TOrder>((_, idx) => ({
 }));
 
 const OrderListPage = () => {
-  const handleApproveOrder = (order: TOrder) => {
-    Modal.confirm({
-      title: `Xác nhận duyệt đơn đặt hàng ${order.id}?`,
-      icon: <ExclamationCircleOutlined />,
-      content: 'Some descriptions',
-      onOk() {
-        console.log('OK');
-      },
-      onCancel() {
-        console.log('Cancel');
-      },
-    });
+  const [currentOrder, setCurrentOrder] = useState<TOrder | null>(null);
+  const handleApproveOrder = async (data: { detail: string }) => {
+    if (currentOrder) {
+      await orderApi.updateOrderStatus(currentOrder?.id, {
+        detail: data.detail,
+        status: OrderStatus.ADMIN_CONFIRMED,
+      });
+    }
+    return true;
   };
 
   const drawerContent = (order: TOrder) => (
@@ -209,7 +208,7 @@ const OrderListPage = () => {
             }}
             onFinish={() => {
               if (isNeedApprove) {
-                handleApproveOrder(data);
+                setCurrentOrder(data);
               }
               return new Promise((res) => res(true));
             }}
@@ -224,6 +223,15 @@ const OrderListPage = () => {
 
   return (
     <PageContainer>
+      <ModalForm
+        visible={Boolean(currentOrder)}
+        onVisibleChange={(visible) => !visible && setCurrentOrder(null)}
+        title={`Xác nhận xét duyệt cho đơn hàng #${currentOrder?.id}?`}
+        onFinish={handleApproveOrder}
+      >
+        <Alert showIcon message="Xác nhận giảng viên có thể nhận đơn hàng này." type="info" />
+        <ProFormTextArea name="detail" label="Nội dung" width="md" />
+      </ModalForm>
       <ProTable<TOrder>
         columns={columns}
         dataSource={mockData}
