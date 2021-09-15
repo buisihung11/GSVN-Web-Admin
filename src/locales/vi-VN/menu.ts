@@ -19,4 +19,6 @@ export default {
   'menu.order': 'Đơn hàng',
   'menu.account': 'Tài khoản',
   'menu.blog-post': 'Bài viết',
+  'menu.course': 'Khóa học',
+  'menu.coursing': 'Môn học',
 };

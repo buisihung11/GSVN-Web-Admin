@@ -1,6 +1,5 @@
-import { useIntl } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
 import { DefaultFooter } from '@ant-design/pro-layout';
+import { useIntl } from 'umi';
 
 export default () => {
   const intl = useIntl();
@@ -11,24 +10,12 @@ export default () => {
 
   return (
     <DefaultFooter
-      copyright={`2020 ${defaultMessage}`}
+      copyright={`2021`}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
-          href: 'https://pro.ant.design',
-          blankTarget: true,
-        },
-        {
-          key: 'github',
-          title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
-          blankTarget: true,
-        },
-        {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          key: 'GSVN',
+          title: 'GSVN',
+          href: 'https://gsvn-deploy.vercel.app/',
           blankTarget: true,
         },
       ]}

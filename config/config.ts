@@ -69,7 +69,7 @@ export default defineConfig({
     },
     {
       path: '/tutor',
-      icon: 'user',
+      icon: 'idcard',
       name: 'tutor',
       routes: [
         {
@@ -105,15 +105,27 @@ export default defineConfig({
     },
     {
       path: '/orders',
-      icon: 'unordered-list',
+      icon: 'carry-out',
       name: 'order',
       component: './order',
     },
     {
-      path: '/accounts',
+      path: '/course',
+      icon: 'read',
+      name: 'course',
+      component: './course',
+    },
+    {
+      path: '/coursing',
+      icon: 'tags',
+      name: 'coursing',
+      component: './coursing',
+    },
+    {
+      path: '/setting',
       icon: 'user',
       name: 'account',
-      component: './account',
+      component: './setting',
     },
     {
       component: '404',

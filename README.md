@@ -7,7 +7,12 @@
 ## 11/09/2021
 
 - [x] Quan ly account
-- [ ] Quan ly blogpost
+- [x] Quan ly blogpost
+
+
+- [ ] Quan ly cac mon day (Coursing)
+- [ ] Quan ly khoa hoc (Course)
+- [ ] Cau hinh thong tin he thong
 
 
 

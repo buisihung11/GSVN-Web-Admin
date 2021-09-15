@@ -234,14 +234,14 @@ const OrderListPage = () => {
       </ModalForm>
       <ProTable<TOrder>
         columns={columns}
-        dataSource={mockData}
-        // request={(params) =>
-        //   orderApi.get(params).then((res) => ({
-        //     total: res.data.totalItems,
-        //     success: true,
-        //     data: res.data.items,
-        //   }))
-        // }
+        // dataSource={mockData}
+        request={(params) =>
+          orderApi.get(params).then((res) => ({
+            total: res.data.totalItems,
+            success: true,
+            data: res.data.items,
+          }))
+        }
       />
     </PageContainer>
   );
