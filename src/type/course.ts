@@ -1,17 +1,24 @@
+import { TImage } from './image';
 import { TeachFormType, TTutor } from './tutor';
 
 export type TCourse = {
   id: number;
   title: string;
-  description: string;
+  description?: string;
   coursingLevel?: string;
-  mentor: Partial<TTutor>;
   teachForm: TeachFormType;
-  duration: Date[] | string[];
-  totalAmount: number;
-  finalAmount: number;
-  tableOfContents: string[];
-  bannerUrl?: string;
+  banner?: Partial<TImage>;
   benefits: string[];
-  slug: string;
+  slug?: string;
+  duration: number;
+  durationUnit: string;
+  amount: number;
+  discount?: number;
+  tableOfContent?: string;
+  content?: string;
+  detail?: string;
+  inCharge?: string;
+  bannerId?: number;
+
+  mentor: string;
 };

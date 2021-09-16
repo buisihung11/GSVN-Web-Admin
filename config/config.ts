@@ -113,7 +113,17 @@ export default defineConfig({
       path: '/course',
       icon: 'read',
       name: 'course',
-      component: './course',
+      routes: [
+        {
+          path: '/course/create',
+          component: './course/create',
+        },
+        {
+          path: '/course',
+          exact: true,
+          component: './course',
+        },
+      ],
     },
     {
       path: '/coursing',
@@ -122,10 +132,10 @@ export default defineConfig({
       component: './coursing',
     },
     {
-      path: '/setting',
+      path: '/account',
       icon: 'user',
       name: 'account',
-      component: './setting',
+      component: './account',
     },
     {
       component: '404',
