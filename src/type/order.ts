@@ -4,8 +4,8 @@ import { TTutor } from './tutor';
 
 export enum OrderStatus {
   NEW = 'new',
-  TUTOR_CONFIRMED = 'tutorConfirmed',
   ADMIN_CONFIRMED = 'adminConfirmed',
+  TUTOR_CONFIRMED = 'tutorConfirmed',
   PAYMENT_CONFIRMED = 'paymentConfirmed',
   CLOSED = 'closed',
   REJECTED = 'rejected',

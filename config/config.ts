@@ -138,6 +138,12 @@ export default defineConfig({
       component: './account',
     },
     {
+      path: '/setting',
+      name: 'setting',
+      component: './setting',
+      hideInMenu: true,
+    },
+    {
       component: '404',
     },
   ],

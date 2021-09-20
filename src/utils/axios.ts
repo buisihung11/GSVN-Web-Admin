@@ -26,7 +26,7 @@ const parseParams = (params: any) => {
 };
 
 const request = axios.create({
-  baseURL: 'http://13.234.117.30:8000/api/admin',
+  baseURL:'https://localhost:44325/api/admin',
   paramsSerializer: parseParams
 });
 

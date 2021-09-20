@@ -47,7 +47,7 @@ const mockData = [...new Array(20)].map<TOrder>((_, idx) => ({
       title: 'Diamond',
     },
   },
-  status: faker.random.arrayElement(Object.values(OrderStatus)),
+  status: +faker.random.arrayElement(Object.values(OrderStatus)),
   owner: {
     fullName: faker.name.findName(),
     phone: faker.phone.phoneNumber(),
@@ -228,6 +228,7 @@ const OrderListPage = () => {
         onVisibleChange={(visible) => !visible && setCurrentOrder(null)}
         title={`Xác nhận xét duyệt cho đơn hàng #${currentOrder?.id}?`}
         onFinish={handleApproveOrder}
+        width={400}
       >
         <Alert showIcon message="Xác nhận giảng viên có thể nhận đơn hàng này." type="info" />
         <ProFormTextArea name="detail" label="Nội dung" width="md" />

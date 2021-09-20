@@ -21,4 +21,5 @@ export default {
   'menu.blog-post': 'Bài viết',
   'menu.course': 'Khóa học',
   'menu.coursing': 'Môn học',
+  'menu.setting': 'Cấu hình',
 };
