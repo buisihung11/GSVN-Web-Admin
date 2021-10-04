@@ -56,12 +56,12 @@ const SettingPage = () => {
                     {
                       title: 'Tên trang web',
                       dataIndex: 'metaTitle',
-                      width: 'm',
+                      width: 'lg',
                     },
                     {
                       title: 'Từ khóa',
                       dataIndex: 'metaKeywords',
-                      width: 'm',
+                      width: 'lg',
                       renderFormItem: () => <Select mode="tags" tokenSeparators={[',']} />,
                     },
                   ],
@@ -70,7 +70,7 @@ const SettingPage = () => {
                   title: 'Miêu tả',
                   dataIndex: 'metaDescription',
                   valueType: 'textarea',
-                  width: 'xl',
+                  width: 'lg',
                 },
               ],
             },

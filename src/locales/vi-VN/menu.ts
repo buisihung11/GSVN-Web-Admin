@@ -22,4 +22,6 @@ export default {
   'menu.course': 'Khóa học',
   'menu.coursing': 'Môn học',
   'menu.setting': 'Cấu hình',
+  'menu.email-template': 'Mẫu email',
+  'menu.badge': 'Danh hiệu',
 };

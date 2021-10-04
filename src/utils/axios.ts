@@ -1,4 +1,7 @@
+import { notification } from 'antd';
 import axios from 'axios';
+import { setSession } from './jwt';
+import { setUserInfo } from './utils';
 
 // ----------------------------------------------------------------------
 
@@ -26,8 +29,8 @@ const parseParams = (params: any) => {
 };
 
 const request = axios.create({
-  baseURL:'https://localhost:44325/api/admin',
-  paramsSerializer: parseParams
+  baseURL: 'https://api.tutorup.edu.vn/api/admin',
+  paramsSerializer: parseParams,
 });
 
 request.interceptors.request.use((options) => {
@@ -35,16 +38,90 @@ request.interceptors.request.use((options) => {
 
   if (method === 'put' || method === 'post') {
     Object.assign(options.headers, {
-      'Content-Type': 'application/json;charset=UTF-8'
+      'Content-Type': 'application/json;charset=UTF-8',
     });
   }
 
   return options;
 });
 
+const codeMessage = {
+  200: 'Thực hiện thành công.',
+  201: 'Tạo thành công',
+  202: '一个请求已经进入后台排队（异步任务）。',
+  204: '删除数据成功。',
+  400: 'There was an error in the requested request, and the server did not create or modify data.',
+  401: 'The user does not have permission (token, user name, wrong password).',
+  403: 'The user is authorized, but access is prohibited.',
+  404: 'Resource Empty',
+  406: '请求的格式不可得。',
+  410: '请求的资源被永久删除，且不会再得到的。',
+  422: '当创建一个对象时，发生一个验证错误。',
+  500: 'Có lỗi xảy ra. Vui lòng thử lại',
+  502: '网关错误。',
+  503: '服务不可用，服务器暂时过载或维护。',
+  504: '网关超时。',
+};
+
+request.interceptors.response.use((response) => {
+  const {
+    status,
+    config: { method },
+  } = response;
+
+  switch (status) {
+    case 200:
+      if (method !== 'get')
+        notification.success({
+          message: 'Thành công',
+          description: codeMessage[200],
+        });
+      break;
+    case 201:
+      if (method !== 'GET')
+        notification.success({
+          message: 'Thành công',
+          description: codeMessage[201],
+        });
+      break;
+    case 401:
+      notification.error({
+        message: 'Unauthorization',
+        description: 'Not Logged in. Please Loggin',
+      });
+      /* eslint-disable no-underscore-dangle */
+      setSession(null);
+      setUserInfo(null);
+      // eslint-disable-next-line no-restricted-globals
+      location.href = '/user/login';
+      // setTimeout(() => {
+      //   window.g_app._store.dispatch({
+      //     type: 'login/logout',
+      //   });
+      // }, 3000);
+      break;
+    case 403:
+      notification.error({
+        message: response.statusText,
+        description: `Your request to ${response.config.url} was forbiden`,
+      });
+      break;
+    case 405:
+      notification.error({
+        message: response.statusText,
+        description: `${response.data.body?.message}`,
+      });
+      break;
+    default:
+      break;
+  }
+
+  return response;
+});
+
 request.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject((error.response && error.response.data) || 'Có lỗi xảy ra')
+  (error) => Promise.reject((error.response && error.response.data) || 'Có lỗi xảy ra'),
 );
 
 export default request;

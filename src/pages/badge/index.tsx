@@ -1,32 +1,40 @@
-import { default as coursing, default as coursingApi } from '@/api/coursing';
+import { useRef } from 'react';
+import badgeApi from '@/api/badge';
 import { buildParamsWithPro } from '@/api/utils';
 import { ModalForm } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
-import ProTable, { ProColumns } from '@ant-design/pro-table';
-import { Button, Modal, Space } from 'antd';
-import CoursingForm from './components/CoursingForm';
+import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+import { Avatar, Button, Modal, Space } from 'antd';
+import BadgeForm from './components/BadgeForm';
 
-const CoursingListPage = () => {
+const BadgeListPage = () => {
+  const ref = useRef<ActionType>();
+
   const handleDelete = (accountId: number) => {
     Modal.confirm({
       title: 'Xác nhận xóa',
       onOk: () => {
-        return coursingApi.delete(accountId);
+        return badgeApi.delete(accountId).then(() => {
+          if (ref.current?.reload) {
+            ref.current.reload();
+          }
+        });
       },
     });
   };
 
   const columns: ProColumns[] = [
     {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
-      width: 100,
-      hideInSearch: true,
+      title: 'Banner',
+      dataIndex: ['image', 'url'],
+      width: 250,
+      render: (value) => (
+        <Avatar shape="square" src={value} style={{ width: '80%', height: 'auto' }} />
+      ),
     },
     {
-      title: 'Tên',
-      dataIndex: 'coursingTitle',
+      title: 'Tiêu đề',
+      dataIndex: 'title',
     },
     {
       title: 'Hành động',
@@ -40,7 +48,7 @@ const CoursingListPage = () => {
           </Button>
           <ModalForm
             initialValues={data}
-            title="Cập nhật môn học"
+            title="Cập nhật danh hiệu"
             trigger={
               <Button type="link" key="create">
                 Chi tiết
@@ -51,7 +59,7 @@ const CoursingListPage = () => {
               return new Promise((res) => res(true));
             }}
           >
-            <CoursingForm />
+            <BadgeForm />
           </ModalForm>
         </Space>
       ),
@@ -61,27 +69,28 @@ const CoursingListPage = () => {
   return (
     <PageContainer>
       <ProTable
+        actionRef={ref}
         search={{
           layout: 'vertical',
         }}
         toolBarRender={() => [
           <ModalForm
-            title="Tạo mới môn học"
+            title="Tạo mới danh hiệu"
             trigger={
               <Button key="create" type="primary">
-                Thêm môn học
+                Thêm danh hiệu
               </Button>
             }
-            onFinish={async (values) => {
-              await coursing.create(values);
-              return true;
+            onFinish={(values) => {
+              console.log(values);
+              return new Promise((res) => res(true));
             }}
           >
-            <CoursingForm />
+            <BadgeForm />
           </ModalForm>,
         ]}
         request={(...params) =>
-          coursing.get(buildParamsWithPro(...params)).then((res) => ({
+          badgeApi.get(buildParamsWithPro(...params)).then((res) => ({
             data: res.data,
             total: res.data.length,
           }))
@@ -93,4 +102,4 @@ const CoursingListPage = () => {
   );
 };
 
-export default CoursingListPage;
+export default BadgeListPage;

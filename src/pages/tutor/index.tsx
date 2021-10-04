@@ -9,6 +9,7 @@ import { Alert, Button, Divider, Space } from 'antd';
 import faker from 'faker';
 import { useState } from 'react';
 import { Link } from 'umi';
+import { buildParamsWithPro } from '@/api/utils';
 
 faker.locale = 'vi';
 
@@ -56,54 +57,72 @@ const TutorListPage = () => {
       title: 'Id',
       dataIndex: 'id',
       key: 'id',
+      width: 70,
     },
     {
       title: 'Tên giảng viên',
       dataIndex: 'fullName',
       key: 'name',
+      width: 150,
     },
     {
       title: 'Email',
       dataIndex: 'email',
+      width: 120,
     },
     {
       title: 'Số điện thoại',
       dataIndex: 'phone',
+      width: 120,
     },
     {
       title: 'Giới tính',
       dataIndex: 'gender',
       hideInSearch: true,
       sorter: true,
+      width: 120,
+    },
+    {
+      title: 'Role',
+      dataIndex: 'role',
+      hideInSearch: true,
+      width: 120,
     },
     {
       title: 'Địa chỉ',
       dataIndex: 'address',
       hideInSearch: true,
       ellipsis: true,
+      width: 150,
     },
     {
       title: 'Trạng thái',
-      dataIndex: 'status',
+      dataIndex: 'userStatus',
+      width: 120,
       valueType: 'select',
       valueEnum: {
         [TutorStatus.NEW]: {
           text: 'Mới',
           status: 'warning',
         },
+        [TutorStatus.APPROVED]: {
+          text: 'Đã duyệt',
+          status: 'success',
+        },
       },
     },
     {
       title: 'Hành động',
-    width: 200,
-    valueType: 'option',
+      width: 200,
+      valueType: 'option',
+      fixed: 'right',
       render: (_, data) => (
         <Space direction="horizontal">
           <Button type="link" onClick={() => setCurrentTutor(data)}>
             Xét duyệt
           </Button>
           <Divider type="vertical" />
-          <Link to={`/tutor/${data.id}`}>Chi tiết</Link>
+          <Link to={`/admin/tutor/${data.id}`}>Chi tiết</Link>
         </Space>
       ),
     },
@@ -124,7 +143,18 @@ const TutorListPage = () => {
           width="md"
         />
       </ModalForm>
-      <ProTable dataSource={TUTOR_LISTS} columns={goodsColumns} />
+      <ProTable
+        scroll={{
+          x: 650,
+        }}
+        request={(...params) =>
+          tutorApi.get(buildParamsWithPro(...params)).then((res) => ({
+            data: res.data.items,
+            total: res.data.items.length,
+          }))
+        }
+        columns={goodsColumns}
+      />
     </PageContainer>
   );
 };

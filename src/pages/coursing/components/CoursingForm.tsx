@@ -6,7 +6,7 @@ const CoursingForm = () => {
       <ProFormText
         label="Tên môn học"
         width="md"
-        name="coursingTitle"
+        name="title"
         rules={[
           {
             required: true,

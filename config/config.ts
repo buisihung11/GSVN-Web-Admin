@@ -35,6 +35,7 @@ export default defineConfig({
     {
       path: '/user',
       layout: false,
+      component: './wrappers/auth',
       routes: [
         {
           path: '/user/login',
@@ -68,80 +69,111 @@ export default defineConfig({
       redirect: '/tutor',
     },
     {
-      path: '/tutor',
+      path: '/admin',
+      redirect: '/admin/tutor',
+    },
+    {
+      path: '/admin/tutor',
       icon: 'idcard',
       name: 'tutor',
+      access: 'canAdmin',
       routes: [
         {
-          path: '/tutor/:tutorId',
+          path: '/admin/tutor/:tutorId',
           component: './tutor/[tutorId]',
         },
         {
-          path: '/tutor',
+          path: '/admin/tutor',
           exact: true,
           component: './tutor',
         },
       ],
     },
     {
-      path: '/blog-post',
+      path: '/admin/badge',
+      icon: 'safety',
+      name: 'badge',
+      access: 'canAdmin',
+      routes: [
+        {
+          path: '/admin/badge',
+          exact: true,
+          component: './badge',
+        },
+      ],
+    },
+    {
+      path: '/admin/blog-post',
       icon: 'book',
       name: 'blog-post',
+      access: 'canAdmin',
       routes: [
         // {
-        //   path: '/tutor/:tutorId',
+        //   path: '/admin/tutor/:tutorId',
         //   component: './tutor/[tutorId]',
         // },
         {
-          path: '/blog-post/create',
+          path: '/admin/blog-post/create',
           component: './blog-post/create',
         },
         {
-          path: '/blog-post',
+          path: '/admin/blog-post',
           exact: true,
           component: './blog-post',
         },
       ],
     },
     {
-      path: '/orders',
+      path: '/admin/orders',
       icon: 'carry-out',
       name: 'order',
       component: './order',
+      access: 'canAdmin',
     },
     {
-      path: '/course',
+      path: '/admin/course',
       icon: 'read',
       name: 'course',
+      access: 'canAdmin',
       routes: [
         {
-          path: '/course/create',
+          path: '/admin/course/create',
           component: './course/create',
         },
         {
-          path: '/course',
+          path: '/admin/course',
           exact: true,
           component: './course',
         },
       ],
     },
     {
-      path: '/coursing',
+      path: '/admin/coursing',
       icon: 'tags',
       name: 'coursing',
       component: './coursing',
+      access: 'canAdmin',
     },
     {
-      path: '/account',
+      path: '/admin/account',
       icon: 'user',
       name: 'account',
       component: './account',
+      access: 'canAdmin',
     },
     {
-      path: '/setting',
+      path: '/admin/email-template',
+      icon: 'mail',
+      name: 'email-template',
+      component: './account',
+      access: 'canAdmin',
+    },
+    {
+      path: '/admin/setting',
       name: 'setting',
       component: './setting',
       hideInMenu: true,
+      access: 'canAdmin',
     },
     {
       component: '404',
@@ -162,20 +194,6 @@ export default defineConfig({
   },
   // Fast Refresh 热更新
   fastRefresh: {},
-  openAPI: [
-    {
-      requestLibPath: "import { request } from 'umi'",
-      // 或者使用在线的版本
-      // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
-      schemaPath: join(__dirname, 'oneapi.json'),
-      mock: false,
-    },
-    {
-      requestLibPath: "import { request } from 'umi'",
-      schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
-      projectName: 'swagger',
-    },
-  ],
   nodeModulesTransform: {
     type: 'none',
   },

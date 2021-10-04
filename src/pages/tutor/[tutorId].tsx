@@ -1,26 +1,42 @@
+import { useState } from 'react';
+import tutorApi from '@/api/tutor';
+import { TutorStatus } from '@/type/constants';
 import { TTutor } from '@/type/tutor';
+import useRequest from '@ahooksjs/use-request';
+import { ModalForm, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer, RouteContext } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import {
+  Alert,
   Avatar,
   Button,
   Card,
   Descriptions,
   Divider,
+  Empty,
+  List,
   Space,
+  Spin,
   Statistic,
   Typography,
-  List,
 } from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
-import faker from 'faker';
+import { IRouteComponentProps } from 'umi';
 
-const extra = (tutor: TTutor) => (
-  <Space direction="horizontal" size="large" style={{ width: 250 }}>
-    <Statistic title="Trạng thái" value="Chưa duyệt" />
-    <Statistic title="Danh hiệu" value={tutor.badge?.title} />
-  </Space>
-);
+const extra = (tutor: TTutor) => {
+  const status = tutor.userStatus;
+  const isApproved = status === TutorStatus.APPROVED;
+  return (
+    <Space direction="horizontal" size="large" style={{ width: 250 }}>
+      <Statistic
+        title="Trạng thái"
+        value={isApproved ? 'Đã duyệt' : 'Chưa duyệt'}
+        valueStyle={{ color: isApproved ? '#52c41a' : '#fa8c16' }}
+      />
+      <Statistic title="Danh hiệu" value={tutor.badge?.title ?? 'N/A'} />
+    </Space>
+  );
+};
 
 const description = (tutor: TTutor) => (
   <Space size="large">
@@ -72,16 +88,16 @@ const teachingInfoSection = (tutor: TTutor) => (
     </Descriptions>
     <ProTable
       headerTitle="Danh sách môn học đăng ký"
-      dataSource={tutor.coursings}
+      dataSource={tutor.userCoursings}
       search={false}
       pagination={false}
       columns={[
         {
           title: 'Môn học',
-          dataIndex: 'title',
+          dataIndex: ['coursing', 'title'],
         },
         {
-          title: 'Lớp học',
+          title: 'Trình độ',
           dataIndex: 'coursingLevel',
         },
       ]}
@@ -89,83 +105,76 @@ const teachingInfoSection = (tutor: TTutor) => (
   </>
 );
 
-const certificateSection = (tutor: TTutor) => (
-  <>
-    <Descriptions layout="vertical" title="Video giới thiệu và bằng cấp" size="middle" column={2}>
-      <Descriptions.Item label="Video giới thiệu">
-        <video controls style={{ width: '100%', height: '100%' }}>
-          <source
-            src="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"
-            type="video/mp4"
-          ></source>
-        </video>
-      </Descriptions.Item>
-      <Descriptions.Item label="Bằng cấp" style={{ paddingLeft: '2rem' }}>
-        <List
-          dataSource={['Bang-cap1.pdf', 'Bang-cap1.pdf', 'Bang-cap1.pdf']}
-          renderItem={(item) => (
-            <List.Item>
-              <a href="#">{item}</a>
-            </List.Item>
+const certificateSection = (tutor: TTutor) => {
+  const videoURL = tutor.demoVideo?.url;
+  const certificatesLinks = tutor.certificates?.map((c) => c.file.url) ?? [];
+  return (
+    <>
+      <Descriptions layout="vertical" title="Video giới thiệu và bằng cấp" size="middle" column={2}>
+        <Descriptions.Item label="Video giới thiệu">
+          {videoURL ? (
+            <video controls style={{ width: '100%', height: '100%' }}>
+              <source src={videoURL} type="video/mp4"></source>
+            </video>
+          ) : (
+            'N/A'
           )}
-        />
-      </Descriptions.Item>
-    </Descriptions>
-  </>
-);
+        </Descriptions.Item>
+        <Descriptions.Item label="Bằng cấp" style={{ paddingLeft: '2rem' }}>
+          <List
+            dataSource={certificatesLinks}
+            renderItem={(item) => (
+              <List.Item>
+                <a href="#">{item}</a>
+              </List.Item>
+            )}
+          />
+        </Descriptions.Item>
+      </Descriptions>
+    </>
+  );
+};
 
-const action = (
-  <RouteContext.Consumer>
-    {({ isMobile }) => {
-      return (
-        <>
-          <ButtonGroup>
-            <Button>Cập nhật danh hiệu</Button>
-            <Button type="primary">Xét duyệt</Button>
-          </ButtonGroup>
-        </>
-      );
-    }}
-  </RouteContext.Consumer>
-);
-
-const TutorDetailPage = () => {
-  const tutor: TTutor = {
-    id: faker.datatype.number(),
-    avatar: {
-      url: 'https://d21xzygesx9h0w.cloudfront.net/TUTOROO-Russian-Tutor-Singapore-Lana-1040.jpg',
-    },
-    fullName: faker.name.findName(),
-    rate: +faker.finance.amount(0, 5),
-    totalHourRemain: faker.datatype.number(20),
-    totalReview: faker.datatype.number(30),
-    teachForm: 'both',
-    badge: {
-      id: faker.datatype.number(),
-      title: 'Diamond',
-    },
-    email: faker.internet.email(),
-    phone: faker.phone.phoneNumber(),
-    groupRate: 200,
-    about: faker.lorem.paragraph(2),
-    gender: 'female',
-    address: faker.address.cityName(),
-    hoursPerWeek: 0,
-    teachAddress: '',
-    teachDistrict: '',
-    teachCity: '',
-    slug: faker.lorem.slug(4),
-    coursings: [
-      {
-        title: faker.music.genre(),
-        coursingLevel: faker.random.alphaNumeric(12),
-      },
-      {
-        title: faker.music.genre(),
-        coursingLevel: faker.random.alphaNumeric(12),
-      },
-    ],
+const TutorDetailPage = ({ match }: IRouteComponentProps<{ tutorId: string }>) => {
+  const {
+    params: { tutorId },
+  } = match;
+  const [showApproveModal, setShowApproveModal] = useState<boolean>(false);
+  const { data: tutor, loading } = useRequest(() =>
+    tutorApi.getById(+tutorId).then((res) => res.data),
+  );
+  const handleApproveTutor = async (data: { detail: string }) => {
+    if (showApproveModal) {
+      await tutorApi.updateTutorStatus(+tutorId, {
+        detail: data.detail,
+        status: TutorStatus.APPROVED,
+      });
+    }
+    return true;
   };
+
+  if (loading) {
+    return <Spin />;
+  }
+
+  if (!tutor) {
+    return <Empty description="không tìm thấy giảng viên" />;
+  }
+
+  const status = tutor.userStatus;
+  const isApproved = status === TutorStatus.APPROVED;
+
+  const action = (
+    <>
+      <ButtonGroup>
+        <Button>Cập nhật danh hiệu</Button>
+        <Button disabled={isApproved} type="primary" onClick={() => setShowApproveModal(true)}>
+          Xét duyệt
+        </Button>
+      </ButtonGroup>
+    </>
+  );
+
   return (
     <PageContainer
       extra={action}
@@ -173,6 +182,25 @@ const TutorDetailPage = () => {
       content={description(tutor)}
       title={`ID Giảng viên: ${tutor.id}`}
     >
+      <ModalForm
+        visible={Boolean(showApproveModal)}
+        onVisibleChange={(visible) => !visible && setShowApproveModal(false)}
+        title={`Xác nhận xét duyệt cho ${tutor?.fullName}?`}
+        onFinish={handleApproveTutor}
+      >
+        <Alert
+          showIcon
+          message="Cho phép giảng viên bắt đầu nhận đơn hàng."
+          type="info"
+          style={{ marginBottom: '1rem' }}
+        />
+        <ProFormTextArea
+          name="detail"
+          label="Nội dung"
+          placeholder="Giảng viên tiềm năng..."
+          width="md"
+        />
+      </ModalForm>
       <Card bordered={false}>
         {tutorInfoSection(tutor)}
         <Divider style={{ marginBottom: 32 }} />

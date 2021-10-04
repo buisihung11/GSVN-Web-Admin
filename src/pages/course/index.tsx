@@ -1,3 +1,5 @@
+import courseApi from '@/api/course';
+import { buildParamsWithPro } from '@/api/utils';
 import { TCourse } from '@/type/course';
 import { PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -101,20 +103,17 @@ const CourseListPage = (props: Props) => {
         toolBarRender={() => [
           <Button
             type="primary"
-            onClick={() => history.push('/course/create')}
+            onClick={() => history.push('/admin/course/create')}
             icon={<PlusOutlined />}
           >
             Thêm khóa học
           </Button>,
         ]}
-        request={() =>
-          new Promise((res) =>
-            res({
-              data: fakeApi(),
-              total: fakeApi().length,
-              success: true,
-            }),
-          )
+        request={(...params) =>
+          courseApi.get(buildParamsWithPro(...params)).then((res) => ({
+            data: res.data.items,
+            total: res.data.items.length,
+          }))
         }
         columns={columns}
       />

@@ -1,6 +1,8 @@
-import type { TBadgeType } from '@/type/tutor';
+import type { TBadge } from '@/type/badge';
 import { generateAPI } from './utils';
 
-export default {
-  ...generateAPI<TBadgeType>('badges')
+const badgeApi = {
+  ...generateAPI<TBadge>('badges'),
 };
+
+export default badgeApi;

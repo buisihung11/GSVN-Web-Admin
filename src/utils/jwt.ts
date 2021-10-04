@@ -41,4 +41,8 @@ const setSession = (accessToken: string | null) => {
   }
 };
 
-export { isValidToken, setSession, verify, sign };
+const getSession = () => {
+  return localStorage.getItem('accessToken');
+};
+
+export { isValidToken, setSession, getSession, verify, sign };

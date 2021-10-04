@@ -1,6 +1,6 @@
-export type TAccountRole = 'admin' | 'moderator';
+export type TAccountRole = 'Administrator' | 'moderator';
 
 export enum TutorStatus {
-  NEW = 'New',
-  APPROVED = 'Approved',
+  NEW = 'new',
+  APPROVED = 'approved',
 }

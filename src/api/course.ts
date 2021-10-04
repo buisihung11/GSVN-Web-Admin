@@ -1,6 +1,8 @@
 import { TCourse } from '@/type/course';
-import { generateAPI } from './utils';
+import { generateAPIWithPaging } from './utils';
 
-export default {
-  ...generateAPI<TCourse>('coursings')
+const courseApi = {
+  ...generateAPIWithPaging<TCourse>('courses'),
 };
+
+export default courseApi;

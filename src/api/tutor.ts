@@ -15,7 +15,7 @@ const updateTutorStatus = (tutorId: number, data: { detail: string; status: Tuto
   request.put<any>(`/tutors/${tutorId}`, data);
 
 const tutorApi = {
-  ...generateAPIWithPaging<TTutor>('tutors'),
+  ...generateAPIWithPaging<TTutor>('users'),
   registerTutor,
   bookTutor,
   getTutorProfile,

@@ -1,4 +1,6 @@
+import courseApi from '@/api/course';
 import ResoEditor from '@/components/ResoEditor/ResoEditor';
+import { TCourse } from '@/type/course';
 import { BetaSchemaForm, ProFormColumnsType, ProFormUploadDragger } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card } from 'antd';
@@ -9,7 +11,7 @@ const CreateCoursePage = (props: Props) => {
   const columns: ProFormColumnsType[] = [
     {
       title: 'Banner',
-      dataIndex: ['banner', 'url'],
+      dataIndex: 'bannerUrl',
       width: 'md',
       renderFormItem: (props, config) => (
         <ProFormUploadDragger
@@ -105,10 +107,10 @@ const CreateCoursePage = (props: Props) => {
             {
               title: 'Đơn vị',
               dataIndex: 'durationUnit',
-              valueType: 'select',
+              valueType: 'radio',
               width: 'xs',
               valueEnum: {
-                week: {
+                weeks: {
                   text: 'Tuần',
                 },
                 day: {
@@ -122,7 +124,7 @@ const CreateCoursePage = (props: Props) => {
     },
     {
       title: 'Tên giáo viên phụ trách',
-      dataIndex: 'mentor',
+      dataIndex: 'inCharge',
       width: 'md',
       formItemProps: {
         rules: [
@@ -135,7 +137,7 @@ const CreateCoursePage = (props: Props) => {
     },
     {
       title: 'Miêu tả',
-      dataIndex: 'description',
+      dataIndex: 'content',
       width: 'md',
       valueType: 'textarea',
     },
@@ -147,6 +149,11 @@ const CreateCoursePage = (props: Props) => {
     },
   ];
 
+  const handleCreateCourse = async (values: TCourse) => {
+    await courseApi.create(values);
+    return true;
+  };
+
   return (
     <PageContainer>
       <Card>
@@ -156,10 +163,7 @@ const CreateCoursePage = (props: Props) => {
               submitText: 'Tạo',
             },
           }}
-          onFinish={async (values) => {
-            console.log(values);
-            return true;
-          }}
+          onFinish={handleCreateCourse}
           columns={columns}
         />
       </Card>

@@ -7,6 +7,8 @@ import { Button, Divider, Modal, Space } from 'antd';
 import { Link } from 'umi';
 import ProForm, { ModalForm, ProFormSelect, ProFormText } from '@ant-design/pro-form';
 import AccountForm from './components/AccountForm';
+import tutorApi from '@/api/tutor';
+import { buildParamsWithPro } from '@/api/utils';
 
 faker.locale = 'vi';
 
@@ -44,8 +46,8 @@ const AccountListPage = (props: Props) => {
       dataIndex: 'fullName',
     },
     {
-      title: 'Username',
-      dataIndex: 'username',
+      title: 'Email',
+      dataIndex: 'email',
       hideInSearch: true,
     },
     {
@@ -62,7 +64,7 @@ const AccountListPage = (props: Props) => {
       dataIndex: 'role',
       valueType: 'select',
       valueEnum: {
-        admin: {
+        administrator: {
           text: 'Admin',
         },
         moderator: {
@@ -122,7 +124,12 @@ const AccountListPage = (props: Props) => {
             <AccountForm />
           </ModalForm>,
         ]}
-        dataSource={ACCOUNT_LIST}
+        request={(...params) =>
+          tutorApi.get(buildParamsWithPro(...params)).then((res) => ({
+            data: res.data.items,
+            total: res.data.items.length,
+          }))
+        }
         columns={columns}
       />
     </PageContainer>

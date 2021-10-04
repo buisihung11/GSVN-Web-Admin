@@ -1,14 +1,13 @@
-import { useState } from 'react';
+import orderApi from '@/api/order';
+import { buildParamsWithPro } from '@/api/utils';
 import { OrderStatus, TOrder } from '@/type/order';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import { DrawerForm, ModalForm, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Alert, Button, Divider, Modal } from 'antd';
-import faker from 'faker';
-import orderApi from '@/api/order';
+import { Alert, Button, Divider } from 'antd';
+import { useState } from 'react';
 
 const valueEnum = {
   null: { text: 'Tất cả', status: 'Default' },
@@ -26,44 +25,6 @@ const orderEnum = {
   [OrderStatus.REJECTED]: { text: 'Đã hủy', status: 'error' },
   [OrderStatus.CLOSED]: { text: 'Đã đóng', status: 'error' },
 };
-
-const mockData = [...new Array(20)].map<TOrder>((_, idx) => ({
-  id: idx + 1,
-  createdAt: faker.date.past(),
-  tutor: {
-    id: faker.datatype.number(),
-    avatar: {
-      url: 'https://d21xzygesx9h0w.cloudfront.net/TUTOROO-Russian-Tutor-Singapore-Lana-1040.jpg',
-    },
-    fullName: faker.name.findName(),
-    rate: +faker.finance.amount(150, 250),
-    totalHourRemain: faker.datatype.number(20),
-    totalReview: faker.datatype.number(30),
-    teachForm: 'both',
-    phone: faker.phone.phoneNumber(),
-    email: faker.internet.email(),
-    badge: {
-      id: faker.datatype.number(),
-      title: 'Diamond',
-    },
-  },
-  status: +faker.random.arrayElement(Object.values(OrderStatus)),
-  owner: {
-    fullName: faker.name.findName(),
-    phone: faker.phone.phoneNumber(),
-  },
-  class: 'tutorOrder',
-  coursingTitle: faker.lorem.words(),
-  coursingLevel: '',
-  orderRate: 0,
-  totalStudent: 0,
-  startDate: faker.date.soon(3),
-  hoursPerWeek: 0,
-  teachForm: 'both',
-  teachAddress: '',
-  teachDistrict: '',
-  teachCity: '',
-}));
 
 const OrderListPage = () => {
   const [currentOrder, setCurrentOrder] = useState<TOrder | null>(null);
@@ -236,8 +197,8 @@ const OrderListPage = () => {
       <ProTable<TOrder>
         columns={columns}
         // dataSource={mockData}
-        request={(params) =>
-          orderApi.get(params).then((res) => ({
+        request={(...params) =>
+          orderApi.get(buildParamsWithPro(...params)).then((res) => ({
             total: res.data.totalItems,
             success: true,
             data: res.data.items,

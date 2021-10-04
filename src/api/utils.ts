@@ -1,6 +1,44 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AxiosResponse } from 'axios';
 import { BaseReponse, TRequestPaging } from '@/type/response';
 import request from '@/utils/axios';
+import { SortOrder } from 'antd/lib/table/interface';
+
+export const buildParamsWithPro = (
+  {
+    current,
+    pageSize,
+    ...keywords
+  }: Record<string, any> & {
+    pageSize?: number | undefined;
+    current?: number | undefined;
+    keyword?: string | undefined;
+  },
+  sorter: Record<string, SortOrder> = {},
+  filters: Record<string, React.ReactText[] | null> = {},
+) => {
+  // build filters
+  const search = {};
+  if (keywords) {
+    Object.entries(keywords).forEach(([key, value]) => {
+      if (value) {
+        search[`${key}`] = value;
+      }
+    });
+  }
+  // build sort
+  let sort;
+  if (sorter && sorter.field) {
+    sort = `${sorter.field},${sorter.order === 'ascend' ? 'ascend' : 'descend'}`;
+  }
+
+  return {
+    current,
+    pageSize,
+    sort,
+    ...search,
+  };
+};
 
 export const transformParamFromProTable = (params: {
   pageSize?: number | undefined;
