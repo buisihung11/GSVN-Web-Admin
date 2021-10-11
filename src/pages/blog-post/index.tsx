@@ -1,15 +1,15 @@
-import tutorApi from '@/api/tutor';
+import blogPostApi from '@/api/blog-post';
+import { buildParamsWithPro } from '@/api/utils';
 import { TutorStatus } from '@/type/constants';
 import type { TTutor } from '@/type/tutor';
 import { PlusOutlined } from '@ant-design/icons';
-import { ModalForm, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Alert, Button, Divider, Modal, Space } from 'antd';
+import { Button, Divider, Modal, Space } from 'antd';
 import faker from 'faker';
-import { useState } from 'react';
-import { Link, history } from 'umi';
+import { useRef } from 'react';
+import { history, Link } from 'umi';
 
 faker.locale = 'vi';
 
@@ -40,12 +40,13 @@ const TUTOR_LISTS: Partial<TTutor>[] = [...Array(20)].map(() => {
 });
 
 const BlogPostListPage = () => {
+  const ref = useRef<ActionType>();
   const handleDeleteBlogpost = async (id: number) => {
     Modal.confirm({
       title: 'Xác nhận xóa?',
       content: 'Bài viết này sẽ bị xóa khỏi hệ thống',
       onOk: () => {
-        console.log('ok');
+        return blogPostApi.delete(id).then(() => ref.current?.reload());
       },
     });
   };
@@ -57,40 +58,15 @@ const BlogPostListPage = () => {
       key: 'id',
     },
     {
-      title: 'Tên giảng viên',
+      title: 'Tên bài viết',
       dataIndex: 'fullName',
       key: 'name',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-    },
-    {
-      title: 'Số điện thoại',
-      dataIndex: 'phone',
-    },
-    {
-      title: 'Giới tính',
-      dataIndex: 'gender',
+      title: 'Miêu tả',
+      dataIndex: 'detail',
+      valueType: 'textarea',
       hideInSearch: true,
-      sorter: true,
-    },
-    {
-      title: 'Địa chỉ',
-      dataIndex: 'address',
-      hideInSearch: true,
-      ellipsis: true,
-    },
-    {
-      title: 'Trạng thái',
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: {
-        [TutorStatus.NEW]: {
-          text: 'Mới',
-          status: 'warning',
-        },
-      },
     },
     {
       title: 'Hành động',
@@ -110,17 +86,23 @@ const BlogPostListPage = () => {
   return (
     <PageContainer>
       <ProTable
+        actionRef={ref}
         toolBarRender={() => [
           <Button
             type="primary"
-            onClick={() => history.push('/blog-post/create')}
+            onClick={() => history.push('/admin/blog-post/create')}
             icon={<PlusOutlined />}
           >
             Thêm BlogPost
           </Button>,
         ]}
-        dataSource={TUTOR_LISTS}
         columns={goodsColumns}
+        request={(...params) =>
+          blogPostApi.get(buildParamsWithPro(...params)).then((res) => ({
+            data: res.data,
+            total: res.data.length,
+          }))
+        }
       />
     </PageContainer>
   );

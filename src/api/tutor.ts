@@ -11,7 +11,7 @@ const registerTutor = (values: TTutorRegister) => request.post('/tutors/register
 const bookTutor = (tutorId: number, values: TCreateOrderRequest) =>
   request.post<TOrder>(`/tutors/${tutorId}/orders`, values);
 
-const updateTutorStatus = (tutorId: number, data: { detail: string; status: TutorStatus }) =>
+const updateTutorStatus = (tutorId: number, data: { detail: string; userStatus: TutorStatus }) =>
   request.put<any>(`/tutors/${tutorId}`, data);
 
 const tutorApi = {

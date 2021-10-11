@@ -29,7 +29,7 @@ const BadgeListPage = () => {
       dataIndex: ['image', 'url'],
       width: 250,
       render: (value) => (
-        <Avatar shape="square" src={value} style={{ width: '80%', height: 'auto' }} />
+        <Avatar shape="square" src={value} style={{ width: '100px', height: 'auto' }} />
       ),
     },
     {
@@ -82,8 +82,14 @@ const BadgeListPage = () => {
               </Button>
             }
             onFinish={(values) => {
-              console.log(values);
-              return new Promise((res) => res(true));
+              return badgeApi
+                .create(values)
+                .then(() => true)
+                .then(() => {
+                  if (ref.current?.reload) {
+                    ref.current.reload();
+                  }
+                });
             }}
           >
             <BadgeForm />

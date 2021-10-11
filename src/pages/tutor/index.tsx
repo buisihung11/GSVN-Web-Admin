@@ -1,15 +1,15 @@
 import tutorApi from '@/api/tutor';
+import { buildParamsWithPro } from '@/api/utils';
 import { TutorStatus } from '@/type/constants';
 import type { TTutor } from '@/type/tutor';
 import { ModalForm, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { Alert, Button, Divider, Space } from 'antd';
 import faker from 'faker';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'umi';
-import { buildParamsWithPro } from '@/api/utils';
 
 faker.locale = 'vi';
 
@@ -41,12 +41,13 @@ const TUTOR_LISTS: Partial<TTutor>[] = [...Array(20)].map(() => {
 
 const TutorListPage = () => {
   const [currentTutor, setCurrentTutor] = useState<TTutor | null>(null);
+  const ref = useRef<ActionType>();
 
   const handleApproveTutor = async (data: { detail: string }) => {
     if (currentTutor) {
       await tutorApi.updateTutorStatus(currentTutor?.id, {
         detail: data.detail,
-        status: TutorStatus.APPROVED,
+        userStatus: TutorStatus.APPROVED,
       });
     }
     return true;
@@ -144,6 +145,7 @@ const TutorListPage = () => {
         />
       </ModalForm>
       <ProTable
+        actionRef={ref}
         scroll={{
           x: 650,
         }}

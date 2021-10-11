@@ -1,17 +1,21 @@
-import { default as coursing, default as coursingApi } from '@/api/coursing';
+import { useRef } from 'react';
+import coursingApi from '@/api/coursing';
 import { buildParamsWithPro } from '@/api/utils';
 import { ModalForm } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
-import ProTable, { ProColumns } from '@ant-design/pro-table';
+import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, Modal, Space } from 'antd';
 import CoursingForm from './components/CoursingForm';
+import { TCoursing } from '@/type/coursing';
 
 const CoursingListPage = () => {
+  const ref = useRef<ActionType>();
+
   const handleDelete = (accountId: number) => {
     Modal.confirm({
       title: 'Xác nhận xóa',
       onOk: () => {
-        return coursingApi.delete(accountId);
+        return coursingApi.delete(accountId).then(() => ref.current?.reload());
       },
     });
   };
@@ -26,7 +30,7 @@ const CoursingListPage = () => {
     },
     {
       title: 'Tên',
-      dataIndex: 'coursingTitle',
+      dataIndex: 'title',
     },
     {
       title: 'Hành động',
@@ -47,8 +51,9 @@ const CoursingListPage = () => {
               </Button>
             }
             onFinish={(values) => {
-              console.log(values);
-              return new Promise((res) => res(true));
+              return coursingApi
+                .update(data.id, values as TCoursing)
+                .then(() => ref.current?.reload());
             }}
           >
             <CoursingForm />
@@ -61,6 +66,7 @@ const CoursingListPage = () => {
   return (
     <PageContainer>
       <ProTable
+        actionRef={ref}
         search={{
           layout: 'vertical',
         }}
@@ -73,7 +79,8 @@ const CoursingListPage = () => {
               </Button>
             }
             onFinish={async (values) => {
-              await coursing.create(values);
+              await coursingApi.create(values);
+              ref.current?.reload();
               return true;
             }}
           >
@@ -81,7 +88,7 @@ const CoursingListPage = () => {
           </ModalForm>,
         ]}
         request={(...params) =>
-          coursing.get(buildParamsWithPro(...params)).then((res) => ({
+          coursingApi.get(buildParamsWithPro(...params)).then((res) => ({
             data: res.data,
             total: res.data.length,
           }))
