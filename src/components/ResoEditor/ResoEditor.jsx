@@ -5,6 +5,7 @@ import { uploadfile } from '@/api/file';
 import spinnerPath from '@/assets/images/spinner.svg';
 import 'react-quill/dist/quill.snow.css';
 import ImageResize from 'quill-image-resize-module-react';
+import firebaseStorageService from '@/services/firebaseStorage';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -36,8 +37,7 @@ function imageUpload() {
     // Move cursor to right side of image (easier to continue typing)
     this.quill.setSelection(range.index + 1);
 
-    const res = await uploadfile(file); // API post, returns image location as string e.g. 'http://www.example.com/images/foo.png'
-
+    const res = await firebaseStorageService.uploadFile(file);
     // Remove placeholder image
     this.quill.deleteText(range.index, 1);
 

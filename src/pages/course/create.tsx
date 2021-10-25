@@ -1,25 +1,26 @@
 import courseApi from '@/api/course';
 import ResoEditor from '@/components/ResoEditor/ResoEditor';
+import UploadFile from '@/components/Upload/UploadFile';
+import firebaseStorageService from '@/services/firebaseStorage';
 import { TCourse } from '@/type/course';
-import { BetaSchemaForm, ProFormColumnsType, ProFormUploadDragger } from '@ant-design/pro-form';
+import ProForm, {
+  BetaSchemaForm,
+  ProFormColumnsType,
+  ProFormUploadDragger,
+} from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card } from 'antd';
 
-interface Props {}
-
-const CreateCoursePage = (props: Props) => {
+const CreateCoursePage = () => {
   const columns: ProFormColumnsType[] = [
     {
       title: 'Banner',
       dataIndex: 'bannerUrl',
       width: 'md',
-      renderFormItem: (props) => (
-        <ProFormUploadDragger
-          title="Hình ảnh"
-          description="Kéo thả hình ảnh vào đây"
-          width="md"
-          name={props.dataIndex}
-        />
+      renderFormItem: () => (
+        <ProForm.Item name="bannerUrl">
+          <UploadFile style={{ height: '100%' }} />
+        </ProForm.Item>
       ),
     },
     {

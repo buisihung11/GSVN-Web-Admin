@@ -109,12 +109,13 @@ export default defineConfig({
       access: 'canAdmin',
       routes: [
         {
-          path: '/admin/blog-post/:blogpostId',
-          component: './blog-post/[blogpostId]',
-        },
-        {
           path: '/admin/blog-post/create',
           component: './blog-post/create',
+          exact: true,
+        },
+        {
+          path: '/admin/blog-post/:blogpostId',
+          component: './blog-post/[blogpostId]',
         },
         {
           path: '/admin/blog-post',
@@ -137,12 +138,13 @@ export default defineConfig({
       access: 'canAdmin',
       routes: [
         {
-          path: '/admin/course/:courseId',
-          component: './course/[courseId]',
-        },
-        {
           path: '/admin/course/create',
           component: './course/create',
+          exact: true,
+        },
+        {
+          path: '/admin/course/:courseId',
+          component: './course/[courseId]',
         },
         {
           path: '/admin/course',

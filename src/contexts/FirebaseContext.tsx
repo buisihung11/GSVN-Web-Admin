@@ -17,8 +17,6 @@ import { notification } from 'antd';
 
 // ----------------------------------------------------------------------
 
-const ADMIN_EMAILS = ['demo@minimals.cc'];
-
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
   firebase.firestore();
