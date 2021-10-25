@@ -1,10 +1,10 @@
 import courseApi from '@/api/course';
 import ResoEditor from '@/components/ResoEditor/ResoEditor';
+import UploadFile from '@/components/Upload/UploadFile';
 import { TCourse } from '@/type/course';
-import useRequest from '@ahooksjs/use-request';
-import { BetaSchemaForm, ProFormColumnsType, ProFormUploadDragger } from '@ant-design/pro-form';
+import ProForm, { BetaSchemaForm, ProFormColumnsType } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Empty, Spin } from 'antd';
+import { Card, Empty } from 'antd';
 import { IRouteComponentProps } from 'umi';
 
 interface Props {}
@@ -32,15 +32,12 @@ const UpdateCoursePage = ({ match, location }: IRouteComponentProps<{ courseId: 
   const columns: ProFormColumnsType[] = [
     {
       title: 'Banner',
-      dataIndex: 'bannerUrl',
+      dataIndex: ['banner', 'url'],
       width: 'md',
-      renderFormItem: (props) => (
-        <ProFormUploadDragger
-          title="Hình ảnh"
-          description="Kéo thả hình ảnh vào đây"
-          width="md"
-          name={props.dataIndex}
-        />
+      renderFormItem: () => (
+        <ProForm.Item name={['banner', 'url']}>
+          <UploadFile accept="image/*" style={{ height: '100%' }} />
+        </ProForm.Item>
       ),
     },
     {

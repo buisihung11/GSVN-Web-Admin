@@ -15,11 +15,11 @@ const CreateCoursePage = () => {
   const columns: ProFormColumnsType[] = [
     {
       title: 'Banner',
-      dataIndex: 'bannerUrl',
+      dataIndex: ['banner', 'url'],
       width: 'md',
       renderFormItem: () => (
-        <ProForm.Item name="bannerUrl">
-          <UploadFile style={{ height: '100%' }} />
+        <ProForm.Item name={['banner', 'url']}>
+          <UploadFile accept="image/*" style={{ height: '100%' }} />
         </ProForm.Item>
       ),
     },
@@ -114,7 +114,7 @@ const CreateCoursePage = () => {
                 weeks: {
                   text: 'Tuần',
                 },
-                day: {
+                days: {
                   text: 'Ngày',
                 },
               },
