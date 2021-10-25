@@ -83,29 +83,29 @@ const OrderListPage = () => {
             dataIndex: 'teachForm',
             valueType: 'select',
             valueEnum,
+            span: 3,
+          },
+          {
+            title: 'Địa chỉ học',
+            dataIndex: 'teachAddress',
           },
           {
             title: 'Ngày đặt',
             dataIndex: 'createdAt',
             valueType: 'fromNow',
+            span: 3,
           },
           {
             title: 'Tạm tính',
             dataIndex: 'totalAmount',
-            renderText: (value) => formatCurrency(value),
-            style: {
-              fontWeight: 'bold',
-            },
-            span: 4,
+            renderText: (value) => <strong>{formatCurrency(value)}</strong>,
+            span: 3,
           },
           {
             title: 'Tổng',
             dataIndex: 'finalAmount',
             span: 3,
-            renderText: (value) => formatCurrency(value),
-            style: {
-              fontWeight: 'bold',
-            },
+            renderText: (value) => <strong>{formatCurrency(value)}</strong>,
           },
         ]}
       />
