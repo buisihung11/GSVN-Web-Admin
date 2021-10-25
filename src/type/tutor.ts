@@ -28,7 +28,7 @@ export type TTutor = {
   teachCity: string;
   slug: string;
   avatar?: Partial<TImage>;
-  userCoursings: Partial<TCourse>[];
+  userCoursings: Partial<TutorCoursing>[];
   userStatus: TutorStatus;
 
   totalHourRemain: number;
@@ -36,6 +36,44 @@ export type TTutor = {
   demoVideo?: DemoVideo;
   introVideo?: IntroVideo;
   certificates?: Certificate[];
+};
+
+export type TutorCoursing = {
+  id: number;
+  rate: number;
+  groupRate: number;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: number;
+  coursingId: number;
+  coursingLevelId: number;
+  coursing: {
+    id: number;
+    createdAt: Date;
+    updatedAt: Date;
+    title: string;
+    createdByUserId: number;
+    updatedByUserId: number;
+    userCoursings: any[];
+    coursingLevels: {
+      id: number;
+      coursingId: number;
+      name: string;
+      createdByUserId: number;
+      updatedByUserId: number;
+      createdAt: Date;
+      updatedAt: Date;
+    }[];
+  };
+  coursingLevel: {
+    id: number;
+    coursingId: number;
+    name: string;
+    createdByUserId: number;
+    updatedByUserId: number;
+    createdAt: Date;
+    updatedAt: Date;
+  };
 };
 
 export type TeachFormType = 'both' | 'online' | 'offline' | undefined | string;

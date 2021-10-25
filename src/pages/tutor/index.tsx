@@ -7,37 +7,8 @@ import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { Alert, Button, Divider, Space } from 'antd';
-import faker from 'faker';
 import { useRef, useState } from 'react';
 import { Link } from 'umi';
-
-faker.locale = 'vi';
-
-const TUTOR_LISTS: Partial<TTutor>[] = [...Array(20)].map(() => {
-  return {
-    id: faker.datatype.number(),
-    avatar: {
-      url: 'https://d21xzygesx9h0w.cloudfront.net/TUTOROO-Russian-Tutor-Singapore-Lana-1040.jpg',
-    },
-    fullName: faker.name.findName(),
-    pricePerHouse: +faker.finance.amount(150, 250),
-    rate: +faker.finance.amount(0, 5),
-    totalHourRemain: faker.datatype.number(20),
-    totalReview: faker.datatype.number(30),
-    teachForm: 'both',
-    badge: {
-      id: faker.datatype.number(),
-      title: 'Diamond',
-    },
-    email: faker.internet.email(),
-    phone: faker.phone.phoneNumber(),
-    groupRate: 200,
-    about: faker.lorem.paragraph(2),
-    gender: 'female',
-    address: faker.address.cityName(),
-    status: TutorStatus.NEW,
-  };
-});
 
 const TutorListPage = () => {
   const [currentTutor, setCurrentTutor] = useState<TTutor | null>(null);
@@ -49,6 +20,7 @@ const TutorListPage = () => {
         detail: data.detail,
         userStatus: TutorStatus.APPROVED,
       });
+      ref.current?.reload();
     }
     return true;
   };
@@ -117,9 +89,14 @@ const TutorListPage = () => {
       width: 200,
       valueType: 'option',
       fixed: 'right',
+      align: 'center',
       render: (_, data) => (
         <Space direction="horizontal">
-          <Button type="link" onClick={() => setCurrentTutor(data)}>
+          <Button
+            disabled={data.userStatus === TutorStatus.APPROVED}
+            type="link"
+            onClick={() => setCurrentTutor(data)}
+          >
             Xét duyệt
           </Button>
           <Divider type="vertical" />
@@ -150,7 +127,7 @@ const TutorListPage = () => {
           x: 650,
         }}
         request={(...params) =>
-          tutorApi.get(buildParamsWithPro(...params)).then((res) => ({
+          tutorApi.get({ ...buildParamsWithPro(...params), roleType: 'tutor' }).then((res) => ({
             data: res.data.items,
             total: res.data.items.length,
           }))

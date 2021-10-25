@@ -3,7 +3,7 @@ import tutorApi from '@/api/tutor';
 import { TutorStatus } from '@/type/constants';
 import { TTutor } from '@/type/tutor';
 import useRequest from '@ahooksjs/use-request';
-import { ModalForm, ProFormTextArea } from '@ant-design/pro-form';
+import { ModalForm, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer, RouteContext } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import {
@@ -22,6 +22,7 @@ import {
 } from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
 import { IRouteComponentProps } from 'umi';
+import badgeApi from '@/api/badge';
 
 const extra = (tutor: TTutor) => {
   const status = tutor.userStatus;
@@ -98,7 +99,17 @@ const teachingInfoSection = (tutor: TTutor) => (
         },
         {
           title: 'Trình độ',
-          dataIndex: 'coursingLevel',
+          dataIndex: ['coursingLevel', 'name'],
+        },
+        {
+          title: 'Giá cá nhân',
+          dataIndex: 'rate',
+          valueType: 'digit',
+        },
+        {
+          title: 'Giá dạy nhóm',
+          dataIndex: 'groupRate',
+          valueType: 'digit',
         },
       ]}
     />
@@ -147,9 +158,17 @@ const TutorDetailPage = ({ match }: IRouteComponentProps<{ tutorId: string }>) =
     if (showApproveModal) {
       await tutorApi.updateTutorStatus(+tutorId, {
         detail: data.detail,
-        status: TutorStatus.APPROVED,
+        userStatus: TutorStatus.APPROVED,
       });
     }
+    return true;
+  };
+  const hadleUpdateBadge = async (data: { badge: number }) => {
+    // await tutorApi.updateTutorStatus(+tutorId, {
+    //   detail: data.detail,
+    //   userStatus: TutorStatus.APPROVED,
+    // });
+    console.log(data.badge);
     return true;
   };
 
@@ -167,7 +186,25 @@ const TutorDetailPage = ({ match }: IRouteComponentProps<{ tutorId: string }>) =
   const action = (
     <>
       <ButtonGroup>
-        <Button>Cập nhật danh hiệu</Button>
+        <ModalForm
+          title={`Cập nhật danh hiệu`}
+          onFinish={hadleUpdateBadge}
+          trigger={<Button>Cập nhật danh hiệu</Button>}
+        >
+          <ProFormSelect
+            name="badge"
+            label="Danh hiệu"
+            request={() =>
+              badgeApi.get({}).then((res) =>
+                res.data.map((badge) => ({
+                  label: badge.title,
+                  value: badge.id,
+                })),
+              )
+            }
+            width="md"
+          />
+        </ModalForm>
         <Button disabled={isApproved} type="primary" onClick={() => setShowApproveModal(true)}>
           Xét duyệt
         </Button>

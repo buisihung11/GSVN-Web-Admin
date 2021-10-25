@@ -26,18 +26,25 @@ export const buildParamsWithPro = (
       }
     });
   }
+  console.log(`sorter,filters`, sorter, filters);
   // build sort
-  let sort;
-  if (sorter && sorter.field) {
-    sort = `${sorter.field},${sorter.order === 'ascend' ? 'ascend' : 'descend'}`;
+  let sortBy;
+  let sortDirection;
+  if (sorter && Object.keys(sorter).length) {
+    const key = Object.keys(sorter)[0];
+    sortBy = `${key}`;
+    sortDirection = `${sorter[key] === 'ascend' ? 'asc' : 'desc'}`;
   }
 
-  return {
+  const params = {
     current,
     pageSize,
-    sort,
+    sortBy,
+    sortDirection,
     ...search,
   };
+  Object.keys(params).forEach((key) => (params[key] === undefined ? delete params[key] : {}));
+  return params;
 };
 
 export const transformParamFromProTable = (params: {

@@ -1,6 +1,6 @@
-import { ProFormText } from '@ant-design/pro-form';
+import { ProFormText, ProFormList, ProFormDigit } from '@ant-design/pro-form';
 
-const CoursingForm = () => {
+const CoursingForm = ({ updateMode }: { updateMode?: boolean }) => {
   return (
     <>
       <ProFormText
@@ -14,6 +14,30 @@ const CoursingForm = () => {
           },
         ]}
       />
+      {updateMode && <ProFormDigit name="id" hidden />}
+      <ProFormList
+        label="Cấp bậc môn học"
+        name="coursingLevels"
+        creatorButtonProps={{
+          position: 'bottom',
+          creatorButtonText: 'Thêm Cấp bậc',
+        }}
+      >
+        {updateMode && <ProFormText name="id" hidden />}
+        {updateMode && <ProFormText name="coursingId" hidden />}
+        <ProFormText
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng nhập tên',
+            },
+          ]}
+          name="name"
+          label="Tên Cấp bậc"
+          placeholder="Cấp 1, cấp 2,..."
+          width="md"
+        />
+      </ProFormList>
     </>
   );
 };

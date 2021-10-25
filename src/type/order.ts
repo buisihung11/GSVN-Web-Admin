@@ -25,7 +25,7 @@ export type TOrder = {
   id: number;
   tutor: Partial<TTutor>;
   owner: Partial<TStudent>;
-  status: OrderStatus;
+  currentStatus: OrderStatus;
   createdByUserId?: number;
   updatedByUserId?: number;
   createdAt: Date;

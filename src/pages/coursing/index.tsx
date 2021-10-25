@@ -4,7 +4,7 @@ import { buildParamsWithPro } from '@/api/utils';
 import { ModalForm } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { Button, Modal, Space } from 'antd';
+import { Button, Modal, Space, Tag } from 'antd';
 import CoursingForm from './components/CoursingForm';
 import { TCoursing } from '@/type/coursing';
 
@@ -33,6 +33,17 @@ const CoursingListPage = () => {
       dataIndex: 'title',
     },
     {
+      title: 'Cấp bậc',
+      dataIndex: 'coursingLevels',
+      render: (_, { coursingLevels = [] }: TCoursing) => (
+        <Space>
+          {coursingLevels.map(({ name }) => (
+            <Tag>{name}</Tag>
+          ))}
+        </Space>
+      ),
+    },
+    {
       title: 'Hành động',
       width: 200,
       valueType: 'option',
@@ -56,7 +67,7 @@ const CoursingListPage = () => {
                 .then(() => ref.current?.reload());
             }}
           >
-            <CoursingForm />
+            <CoursingForm updateMode />
           </ModalForm>
         </Space>
       ),
