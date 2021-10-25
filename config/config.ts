@@ -108,10 +108,10 @@ export default defineConfig({
       name: 'blog-post',
       access: 'canAdmin',
       routes: [
-        // {
-        //   path: '/admin/tutor/:tutorId',
-        //   component: './tutor/[tutorId]',
-        // },
+        {
+          path: '/admin/blog-post/:blogpostId',
+          component: './blog-post/[blogpostId]',
+        },
         {
           path: '/admin/blog-post/create',
           component: './blog-post/create',
@@ -136,6 +136,10 @@ export default defineConfig({
       name: 'course',
       access: 'canAdmin',
       routes: [
+        {
+          path: '/admin/course/:courseId',
+          component: './course/[courseId]',
+        },
         {
           path: '/admin/course/create',
           component: './course/create',

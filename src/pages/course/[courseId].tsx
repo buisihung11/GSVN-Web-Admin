@@ -1,13 +1,34 @@
 import courseApi from '@/api/course';
 import ResoEditor from '@/components/ResoEditor/ResoEditor';
 import { TCourse } from '@/type/course';
+import useRequest from '@ahooksjs/use-request';
 import { BetaSchemaForm, ProFormColumnsType, ProFormUploadDragger } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card } from 'antd';
+import { Card, Empty, Spin } from 'antd';
+import { IRouteComponentProps } from 'umi';
 
 interface Props {}
 
-const CreateCoursePage = (props: Props) => {
+const UpdateCoursePage = ({ match, location }: IRouteComponentProps<{ courseId: string }>) => {
+  const {
+    params: { courseId },
+  } = match;
+  console.log(`location`, location);
+  const course: TCourse = location.state as any;
+  // const { data: course, loading } = useRequest(
+  //   () => courseApi.getById(+courseId).then((res) => res.data),
+  //   {
+  //     initialData: initCourse,
+  //     onSuccess: (res) => {
+  //       const transformedRes = { ...res };
+  //       if (transformedRes.tableOfContent) {
+  //         transformedRes.tableOfContent = JSON.parse(transformedRes.tableOfContent);
+  //       }
+  //     },
+  //     ready: Boolean(courseId),
+  //   },
+  // );
+
   const columns: ProFormColumnsType[] = [
     {
       title: 'Banner',
@@ -172,22 +193,31 @@ const CreateCoursePage = (props: Props) => {
     },
   ];
 
-  const handleCreateCourse = async (values: TCourse) => {
+  const handleUpdateCourse = async (values: TCourse) => {
     const transformValues = { ...values, tableOfContent: JSON.stringify(values.tableOfContent) };
-    await courseApi.create(transformValues);
+    await courseApi.update(course?.id, transformValues);
     return true;
   };
+
+  // if (loading) {
+  //   return <Spin />;
+  // }
+
+  if (!course) {
+    return <Empty description="không tìm thấy Khóa học" />;
+  }
 
   return (
     <PageContainer>
       <Card>
         <BetaSchemaForm
+          initialValues={course}
           submitter={{
             searchConfig: {
-              submitText: 'Tạo',
+              submitText: 'Cập nhật',
             },
           }}
-          onFinish={handleCreateCourse}
+          onFinish={handleUpdateCourse}
           columns={columns}
         />
       </Card>
@@ -195,4 +225,4 @@ const CreateCoursePage = (props: Props) => {
   );
 };
 
-export default CreateCoursePage;
+export default UpdateCoursePage;

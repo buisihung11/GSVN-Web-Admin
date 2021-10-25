@@ -5,28 +5,11 @@ import { PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable, { ProColumns } from '@ant-design/pro-table';
 import { Avatar, Button, Divider, Space, Typography } from 'antd';
-import faker from 'faker';
 import { Link, history } from 'umi';
 
 interface Props {}
 
 const CourseListPage = (props: Props) => {
-  const fakeApi = () =>
-    [...new Array(30)].map<TCourse>((_, idx) => ({
-      id: idx,
-      title: faker.random.words(),
-      description: faker.lorem.paragraphs(),
-      duration: faker.datatype.number(20),
-      durationUnit: faker.random.arrayElement(['tuần', 'ngày']),
-      amount: +faker.commerce.price(),
-      teachForm: 'online',
-      mentor: faker.name.findName(),
-      benefits: ['Giấy chứng nhận'],
-      banner: {
-        url: faker.image.city(),
-      },
-    }));
-
   const columns: ProColumns[] = [
     {
       title: 'Banner',
@@ -42,8 +25,13 @@ const CourseListPage = (props: Props) => {
       width: 200,
     },
     {
+      title: 'Giáo viên phụ trách',
+      dataIndex: 'inCharge',
+      width: 200,
+    },
+    {
       title: 'Miêu tả',
-      dataIndex: 'description',
+      dataIndex: 'content',
       hideInSearch: true,
       width: 300,
       render: (value) => (
@@ -85,8 +73,17 @@ const CourseListPage = (props: Props) => {
       title: 'Hành động',
       valueType: 'option',
       align: 'center',
-      render: () => (
+      render: (_, data) => (
         <Space direction="horizontal">
+          <Link
+            to={{
+              pathname: `/admin/course/${data.id}`,
+              state: data,
+            }}
+          >
+            Cập nhật
+          </Link>
+          <Divider type="vertical" />
           <Button danger type="link">
             Xóa
           </Button>

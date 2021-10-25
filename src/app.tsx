@@ -78,7 +78,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       ...routers,
     ],
     links: [
-      <Link to="/setting">
+      <Link to="/admin/setting">
         <SettingOutlined />
         <span>Cấu hình</span>
       </Link>,

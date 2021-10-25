@@ -13,32 +13,6 @@ import { history, Link } from 'umi';
 
 faker.locale = 'vi';
 
-const TUTOR_LISTS: Partial<TTutor>[] = [...Array(20)].map(() => {
-  return {
-    id: faker.datatype.number(),
-    avatar: {
-      url: 'https://d21xzygesx9h0w.cloudfront.net/TUTOROO-Russian-Tutor-Singapore-Lana-1040.jpg',
-    },
-    fullName: faker.name.findName(),
-    pricePerHouse: +faker.finance.amount(150, 250),
-    rate: +faker.finance.amount(0, 5),
-    totalHourRemain: faker.datatype.number(20),
-    totalReview: faker.datatype.number(30),
-    teachForm: 'both',
-    badge: {
-      id: faker.datatype.number(),
-      title: 'Diamond',
-    },
-    email: faker.internet.email(),
-    phone: faker.phone.phoneNumber(),
-    groupRate: 200,
-    about: faker.lorem.paragraph(2),
-    gender: 'female',
-    address: faker.address.cityName(),
-    status: TutorStatus.NEW,
-  };
-});
-
 const BlogPostListPage = () => {
   const ref = useRef<ActionType>();
   const handleDeleteBlogpost = async (id: number) => {
@@ -59,7 +33,7 @@ const BlogPostListPage = () => {
     },
     {
       title: 'Tên bài viết',
-      dataIndex: 'fullName',
+      dataIndex: 'title',
       key: 'name',
     },
     {
@@ -72,13 +46,14 @@ const BlogPostListPage = () => {
       title: 'Hành động',
       width: 200,
       valueType: 'option',
+      align: 'center',
       render: (_, data) => (
         <Space direction="horizontal">
           <Button danger type="link" onClick={() => handleDeleteBlogpost(data.id)}>
             Xóa bài viết
           </Button>
           <Divider type="vertical" />
-          <Link to={`/tutor/${data.id}`}>Chi tiết</Link>
+          <Link to={`/admin/blog-post/${data.id}`}>Cập nhật</Link>
         </Space>
       ),
     },

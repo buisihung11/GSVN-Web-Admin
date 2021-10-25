@@ -5,6 +5,13 @@ import { parse } from 'querystring';
 import moment from 'moment';
 import pathRegexp from 'path-to-regexp';
 
+export const getFileNameFormFirebaseUrl = (url) => {
+  const reg = /(?<=(%2F)).+?(?=\?)/;
+  const found = url?.match(reg);
+  if (found) return found[0];
+  return null;
+};
+
 const reg =
   // eslint-disable-next-line no-useless-escape
   /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
@@ -37,7 +44,7 @@ export const getAuthorityFromRouter = (router = [], pathname) => {
   const authority = router.find(
     ({ routes, path = '/', target = '_self' }) =>
       (path && target !== '_blank' && pathRegexp(path).exec(pathname)) ||
-      (routes && getAuthorityFromRouter(routes, pathname))
+      (routes && getAuthorityFromRouter(routes, pathname)),
   );
   if (authority) return authority;
   return undefined;
@@ -82,7 +89,7 @@ export const buildParams = ({ current, pageSize }, sorter, formData) => {
     page: current,
     size: pageSize,
     sort,
-    ...filters
+    ...filters,
   };
 };
 
@@ -92,7 +99,7 @@ export const getImgUrl = (imageName) =>
 export const buildParamsWithPro = (
   { current, pageSize, ...keywords },
   sorter = {},
-  filters = {}
+  filters = {},
 ) => {
   // build filters
   const search = {};
@@ -113,7 +120,7 @@ export const buildParamsWithPro = (
     page: current,
     size: pageSize,
     sort,
-    ...search
+    ...search,
   };
 };
 
@@ -190,7 +197,7 @@ export const daysInWeek = [
   'Thứ năm',
   'Thứ sáu',
   'Thứ bảy',
-  'Chủ nhật'
+  'Chủ nhật',
 ];
 
 export const DATE_FORMAT = 'DD/MM/YYYY';
@@ -249,7 +256,7 @@ export const normalizeProductForm = (formData) => {
     ...update,
     // attributes: update.attributes || [],
     attributes: [],
-    display_order: 1
+    display_order: 1,
   };
 };
 
@@ -306,7 +313,7 @@ export const downloadFileFromText = (strData, strFileName, strMimeType = 'text/p
         false,
         false,
         0,
-        null
+        null,
       );
       a.dispatchEvent(e);
       D.body.removeChild(a);
@@ -367,7 +374,7 @@ export function arrayMove(array, from, to) {
 
 export function restrictToBoundingRect(transform, rect, boundingRect) {
   const value = {
-    ...transform
+    ...transform,
   };
 
   if (rect.top + transform.y <= boundingRect.top) {
@@ -388,7 +395,7 @@ export function restrictToBoundingRect(transform, rect, boundingRect) {
 export const restrictToFirstScrollableAncestor = ({
   transform,
   activeNodeRect,
-  scrollableAncestorRects
+  scrollableAncestorRects,
 }) => {
   const firstScrollableAncestorRect = scrollableAncestorRects[0];
 

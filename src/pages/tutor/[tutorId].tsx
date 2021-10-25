@@ -23,6 +23,7 @@ import {
 import ButtonGroup from 'antd/lib/button/button-group';
 import { IRouteComponentProps } from 'umi';
 import badgeApi from '@/api/badge';
+import { getFileNameFormFirebaseUrl } from '@/utils/utils';
 
 const extra = (tutor: TTutor) => {
   const status = tutor.userStatus;
@@ -136,7 +137,7 @@ const certificateSection = (tutor: TTutor) => {
             dataSource={certificatesLinks}
             renderItem={(item) => (
               <List.Item>
-                <a href="#">{item}</a>
+                <a href="#">{getFileNameFormFirebaseUrl(item)}</a>
               </List.Item>
             )}
           />
