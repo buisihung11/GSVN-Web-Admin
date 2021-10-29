@@ -3,13 +3,27 @@ import { buildParamsWithPro } from '@/api/utils';
 import { TCourse } from '@/type/course';
 import { PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
-import ProTable, { ProColumns } from '@ant-design/pro-table';
-import { Avatar, Button, Divider, Space, Typography } from 'antd';
+import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+import { Avatar, Button, Divider, Modal, Space, Typography } from 'antd';
+import { useRef } from 'react';
 import { Link, history } from 'umi';
 
-interface Props {}
+const CourseListPage = () => {
+  const ref = useRef<ActionType>();
 
-const CourseListPage = (props: Props) => {
+  const handleDelete = (courseId: number) => {
+    Modal.confirm({
+      title: 'Xác nhận xóa',
+      onOk: () => {
+        return courseApi.delete(courseId).then(() => {
+          if (ref.current?.reload) {
+            ref.current.reload();
+          }
+        });
+      },
+    });
+  };
+
   const columns: ProColumns[] = [
     {
       title: 'Banner',
@@ -27,7 +41,7 @@ const CourseListPage = (props: Props) => {
     {
       title: 'Giáo viên phụ trách',
       dataIndex: 'inCharge',
-      width: 200,
+      width: 300,
     },
     {
       title: 'Miêu tả',
@@ -48,6 +62,7 @@ const CourseListPage = (props: Props) => {
       title: 'Độ dài khóa học',
       dataIndex: 'duration',
       valueType: 'digit',
+      width: 300,
       render: (duration, { durationUnit }) => (
         <span>
           {duration} {durationUnit}
@@ -78,13 +93,12 @@ const CourseListPage = (props: Props) => {
           <Link
             to={{
               pathname: `/admin/course/${data.id}`,
-              state: data,
             }}
           >
             Cập nhật
           </Link>
           <Divider type="vertical" />
-          <Button danger type="link">
+          <Button onClick={() => handleDelete(data.id)} danger type="link">
             Xóa
           </Button>
         </Space>
@@ -94,8 +108,9 @@ const CourseListPage = (props: Props) => {
   return (
     <PageContainer>
       <ProTable<TCourse>
+        actionRef={ref}
         scroll={{
-          x: 600,
+          x: 900,
         }}
         toolBarRender={() => [
           <Button
