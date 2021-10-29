@@ -14,12 +14,16 @@ const bookTutor = (tutorId: number, values: TCreateOrderRequest) =>
 const updateTutorStatus = (tutorId: number, data: { detail: string; userStatus: TutorStatus }) =>
   request.put<any>(`/tutors/${tutorId}`, data);
 
+const updateTutorBadge = (tutorId: number, data: Partial<TTutor>) =>
+  request.put<any>(`/users/${tutorId}`, data);
+
 const tutorApi = {
   ...generateAPIWithPaging<TTutor>('users'),
   registerTutor,
   bookTutor,
   getTutorProfile,
   updateTutorStatus,
+  updateTutorBadge,
 };
 
 export default tutorApi;

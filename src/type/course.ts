@@ -1,5 +1,5 @@
 import { TImage } from './image';
-import { TeachFormType, TTutor } from './tutor';
+import { TeachFormType } from './tutor';
 
 export type TCourse = {
   id: number;
@@ -8,7 +8,7 @@ export type TCourse = {
   coursingLevel?: string;
   teachForm: TeachFormType;
   banner?: Partial<TImage>;
-  benefits: string[];
+  benefit: string;
   slug?: string;
   duration: number;
   durationUnit: string;
