@@ -35,7 +35,7 @@ const OrderListPage = () => {
     if (currentOrder) {
       await orderApi.updateOrderStatus(currentOrder?.id, {
         detail: data.detail,
-        status: OrderStatus.ADMIN_CONFIRMED,
+        orderStatus: OrderStatus.ADMIN_CONFIRMED,
       });
     }
     ref.current?.reload();

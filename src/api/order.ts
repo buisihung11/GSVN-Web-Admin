@@ -2,7 +2,7 @@ import { OrderStatus, TOrder } from '@/type/order';
 import request from '@/utils/axios';
 import { generateAPIWithPaging } from './utils';
 
-const updateOrderStatus = (tutorId: number, data: { detail: string; status: OrderStatus }) =>
+const updateOrderStatus = (tutorId: number, data: { detail: string; orderStatus: OrderStatus }) =>
   request.put<any>(`/orders/${tutorId}`, data);
 
 const orderApi = {
