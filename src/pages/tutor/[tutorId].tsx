@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import badgeApi from '@/api/badge';
 import tutorApi from '@/api/tutor';
+import { TBadge } from '@/type/badge';
 import { TutorStatus } from '@/type/constants';
 import { TTutor } from '@/type/tutor';
+import { getFileNameFormFirebaseUrl } from '@/utils/utils';
 import useRequest from '@ahooksjs/use-request';
 import { ModalForm, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form';
-import { PageContainer, RouteContext } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import {
   Alert,
@@ -21,9 +23,8 @@ import {
   Typography,
 } from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
+import { useState } from 'react';
 import { IRouteComponentProps } from 'umi';
-import badgeApi from '@/api/badge';
-import { getFileNameFormFirebaseUrl } from '@/utils/utils';
 
 const extra = (tutor: TTutor) => {
   const status = tutor.userStatus;
@@ -164,12 +165,17 @@ const TutorDetailPage = ({ match }: IRouteComponentProps<{ tutorId: string }>) =
     }
     return true;
   };
+
   const hadleUpdateBadge = async (data: { badge: number }) => {
-    // await tutorApi.updateTutorStatus(+tutorId, {
-    //   detail: data.detail,
-    //   userStatus: TutorStatus.APPROVED,
-    // });
-    console.log(data.badge);
+    const updatedBadge: TBadge = {
+      ...(tutor?.badge || {}),
+      id: data.badge,
+    };
+
+    await tutorApi.updateTutorBadge(+tutorId, {
+      ...tutor,
+      badge: updatedBadge,
+    });
     return true;
   };
 
