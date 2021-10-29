@@ -12,8 +12,6 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
     params: { blogpostId },
   } = match;
 
-  console.log(`match`, match);
-
   const { data: blogpost, loading } = useRequest(
     () => blogPostApi.getById(+blogpostId).then((res) => res.data),
     {
