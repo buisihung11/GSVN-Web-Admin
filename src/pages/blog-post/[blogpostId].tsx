@@ -1,4 +1,4 @@
-import ProForm, { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import ProForm, { ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import ResoEditor from '@/components/ResoEditor/ResoEditor';
 
 import { IRouteComponentProps } from 'umi';
@@ -6,6 +6,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Empty, Spin } from 'antd';
 import blogPostApi from '@/api/blog-post';
 import useRequest from '@ahooksjs/use-request';
+import UploadFile from '@/components/Upload/UploadFile';
 
 const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>) => {
   const {
@@ -42,6 +43,9 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
             return true;
           }}
         >
+          <ProForm.Item label="Ảnh bìa" name={['banner', 'url']}>
+            <UploadFile accept="image/*" style={{ height: '100%', width: '400px' }} />
+          </ProForm.Item>
           <ProForm.Group>
             <ProFormText
               rules={[
@@ -53,6 +57,13 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
               label="Tên bài viết"
               name="title"
               width="md"
+            />
+            <ProFormSelect
+              label="Thẻ"
+              name="tags"
+              mode="tags"
+              width="md"
+              options={['Tutor', 'Student']}
             />
           </ProForm.Group>
           <ProForm.Group>
