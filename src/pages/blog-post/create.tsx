@@ -1,13 +1,11 @@
-import ProForm, { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import blogPostApi from '@/api/blog-post';
 import ResoEditor from '@/components/ResoEditor/ResoEditor';
-
+import UploadFile from '@/components/Upload/UploadFile';
+import ProForm, { ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card } from 'antd';
-import blogPostApi from '@/api/blog-post';
 
-interface Props {}
-
-const CreateBlogPage = (props: Props) => {
+const CreateBlogPage = () => {
   return (
     <PageContainer>
       <Card>
@@ -22,6 +20,9 @@ const CreateBlogPage = (props: Props) => {
             return true;
           }}
         >
+          <ProForm.Item label="Ảnh bìa" name={['banner', 'url']}>
+            <UploadFile accept="image/*" style={{ height: '100%', width: '400px' }} />
+          </ProForm.Item>
           <ProForm.Group>
             <ProFormText
               rules={[
@@ -33,6 +34,13 @@ const CreateBlogPage = (props: Props) => {
               label="Tên bài viết"
               name="title"
               width="md"
+            />
+            <ProFormSelect
+              label="Thẻ"
+              name="tags"
+              mode="tags"
+              width="md"
+              options={['Tutor', 'Student']}
             />
           </ProForm.Group>
           <ProForm.Group>
