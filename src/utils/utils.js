@@ -1,9 +1,33 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-plusplus */
 /* eslint-disable vars-on-top */
 /* eslint-disable no-undef */
 import { parse } from 'querystring';
 import moment from 'moment';
 import pathRegexp from 'path-to-regexp';
+
+import provinces from '@/constants/provinces.json';
+import districts from '@/constants/districts.json';
+
+export const provinceEnums = provinces.reduce(
+  (obj, p) => ({
+    ...obj,
+    [p.code]: {
+      text: p.name,
+    },
+  }),
+  {},
+);
+
+export const districtEnums = districts.reduce(
+  (obj, p) => ({
+    ...obj,
+    [p.code]: {
+      text: p.full_name,
+    },
+  }),
+  {},
+);
 
 export const getFileNameFormFirebaseUrl = (url) => {
   const reg = /(?<=(%2F)).+?(?=\?)/;
@@ -99,7 +123,7 @@ export const getImgUrl = (imageName) =>
 export const buildParamsWithPro = (
   { current, pageSize, ...keywords },
   sorter = {},
-  filters = {},
+  _filters = {},
 ) => {
   // build filters
   const search = {};
@@ -178,7 +202,7 @@ export const removeUserInfo = () => localStorage.removeItem('USER_INFO');
 export const setUserInfo = (userInfo) => setLocalStorage('USER_INFO', JSON.stringify(userInfo));
 export const getUserInfo = () => getLocalStorage('USER_INFO');
 
-export const removeAppToken = (token) => localStorage.removeItem('APP_TOKEN');
+export const removeAppToken = (_token) => localStorage.removeItem('APP_TOKEN');
 export const setAppToken = (token) => setLocalStorage('APP_TOKEN', token);
 export const getAppToken = () => getLocalStorage('APP_TOKEN');
 
@@ -341,7 +365,7 @@ export const readTextFromFile = (file, onLoad = () => null) => {
     reader.onload = function (evt) {
       onLoad(evt.target.result);
     };
-    reader.onerror = function (evt) {
+    reader.onerror = function (_evt) {
       console.log('error reading file');
     };
   }

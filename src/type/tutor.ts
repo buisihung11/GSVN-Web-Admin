@@ -1,6 +1,5 @@
 import { TBadge } from './badge';
 import { TutorStatus } from './constants';
-import { TCourse } from './course';
 import { TImage } from './image';
 
 export enum BadgeType {
@@ -10,6 +9,7 @@ export enum BadgeType {
 
 export type TTutor = {
   id: number;
+  badgeId: number;
   badge?: TBadge;
   phone?: string;
   email?: string;

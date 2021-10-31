@@ -88,6 +88,7 @@ const CourseListPage = () => {
       title: 'Hành động',
       valueType: 'option',
       align: 'center',
+      fixed: 'right',
       render: (_, data) => (
         <Space direction="horizontal">
           <Link

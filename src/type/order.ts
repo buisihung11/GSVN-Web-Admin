@@ -41,4 +41,5 @@ export type TOrder = {
   teachAddress: string;
   teachDistrict: string;
   teachCity: string;
+  paymentStatus?: string;
 };

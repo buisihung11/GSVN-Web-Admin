@@ -1,6 +1,5 @@
 import badgeApi from '@/api/badge';
 import tutorApi from '@/api/tutor';
-import { TBadge } from '@/type/badge';
 import { TutorStatus } from '@/type/constants';
 import { TTutor } from '@/type/tutor';
 import { getFileNameFormFirebaseUrl } from '@/utils/utils';
@@ -153,9 +152,12 @@ const TutorDetailPage = ({ match }: IRouteComponentProps<{ tutorId: string }>) =
     params: { tutorId },
   } = match;
   const [showApproveModal, setShowApproveModal] = useState<boolean>(false);
-  const { data: tutor, loading } = useRequest(() =>
-    tutorApi.getById(+tutorId).then((res) => res.data),
-  );
+  const {
+    data: tutor,
+    loading,
+    refresh,
+  } = useRequest(() => tutorApi.getById(+tutorId).then((res) => res.data));
+
   const handleApproveTutor = async (data: { detail: string }) => {
     if (showApproveModal) {
       await tutorApi.updateTutorStatus(+tutorId, {
@@ -163,19 +165,17 @@ const TutorDetailPage = ({ match }: IRouteComponentProps<{ tutorId: string }>) =
         userStatus: TutorStatus.APPROVED,
       });
     }
+    refresh();
     return true;
   };
 
   const hadleUpdateBadge = async (data: { badge: number }) => {
-    const updatedBadge: TBadge = {
-      ...(tutor?.badge || {}),
-      id: data.badge,
-    };
-
+    const { badge, ...updateData } = tutor || {};
     await tutorApi.updateTutorBadge(+tutorId, {
-      ...tutor,
-      badge: updatedBadge,
+      ...updateData,
+      badgeId: data.badge,
     });
+    refresh();
     return true;
   };
 

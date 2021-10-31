@@ -51,9 +51,20 @@ const TutorListPage = () => {
     {
       title: 'Giới tính',
       dataIndex: 'gender',
-      hideInSearch: true,
       sorter: true,
       width: 120,
+      valueType: 'select',
+      valueEnum: {
+        male: {
+          text: 'Nam',
+        },
+        female: {
+          text: 'Nữ',
+        },
+        preferNo: {
+          text: 'Khác',
+        },
+      },
     },
     {
       title: 'Role',
@@ -66,6 +77,13 @@ const TutorListPage = () => {
       dataIndex: 'address',
       hideInSearch: true,
       ellipsis: true,
+      width: 150,
+    },
+    {
+      title: 'Mã giới thiệu',
+      dataIndex: 'referalCode',
+      hideInSearch: true,
+      copyable: true,
       width: 150,
     },
     {

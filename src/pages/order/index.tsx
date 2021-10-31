@@ -1,13 +1,13 @@
 import orderApi from '@/api/order';
 import { buildParamsWithPro } from '@/api/utils';
 import { OrderStatus, TOrder } from '@/type/order';
-import { formatCurrency } from '@/utils/utils';
+import { districtEnums, formatCurrency, provinceEnums } from '@/utils/utils';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import { DrawerForm, ModalForm, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Alert, Button, Col, Divider, Row } from 'antd';
+import { Alert, Button, Col, Divider, Row, Tag } from 'antd';
 import { useState, useRef } from 'react';
 
 const valueEnum = {
@@ -65,12 +65,20 @@ const OrderListPage = () => {
           {
             title: 'Số học sinh',
             dataIndex: 'totalStudent',
-            valueType: 'digit',
+            valueType: 'select',
+            valueEnum: {
+              '1': {
+                text: 'Cá nhân',
+              },
+              '5': {
+                text: 'Nhóm',
+              },
+            },
           },
           {
             title: 'Ngày bắt đầu',
             dataIndex: 'startDate',
-            valueType: 'fromNow',
+            valueType: 'date',
           },
           {
             title: 'Trạng thái',
@@ -83,17 +91,34 @@ const OrderListPage = () => {
             dataIndex: 'teachForm',
             valueType: 'select',
             valueEnum,
-            span: 3,
+          },
+          {
+            title: 'Ngày đặt',
+            dataIndex: 'createdAt',
+            valueType: 'fromNow',
+            span: 2,
           },
           {
             title: 'Địa chỉ học',
             dataIndex: 'teachAddress',
           },
           {
-            title: 'Ngày đặt',
-            dataIndex: 'createdAt',
-            valueType: 'fromNow',
+            title: 'Thành phố',
+            dataIndex: 'teachCity',
+            valueType: 'select',
+            valueEnum: provinceEnums as any,
+          },
+          {
+            title: 'Quận huyện',
+            dataIndex: 'teachDistrict',
+            valueType: 'select',
+            valueEnum: districtEnums as any,
+          },
+          {
+            title: 'Tình trạng thanh toán',
+            dataIndex: 'paymentStatus',
             span: 3,
+            render: (_, data) => <Tag>{data.paymentStatus}</Tag>,
           },
           {
             title: 'Tạm tính',
