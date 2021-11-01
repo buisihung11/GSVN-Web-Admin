@@ -1,6 +1,5 @@
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
-import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 const { REACT_APP_ENV } = process.env;
@@ -171,7 +170,21 @@ export default defineConfig({
       path: '/admin/email-template',
       icon: 'mail',
       name: 'email-template',
-      component: './account',
+      routes: [
+        {
+          path: '/admin/email-template/create',
+          component: './email-template/create',
+        },
+        {
+          path: '/admin/email-template/:emailId',
+          component: './email-template/[emailId]',
+          exact: true,
+        },
+        {
+          path: '/admin/email-template',
+          component: './email-template',
+        },
+      ],
       access: 'canAdmin',
     },
     {
@@ -196,7 +209,8 @@ export default defineConfig({
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {
-    basePath: '/',
+    basePath: '/admin',
+    publicPath: '/admin',
   },
   // Fast Refresh 热更新
   fastRefresh: {},
