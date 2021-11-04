@@ -1,7 +1,5 @@
 import blogPostApi from '@/api/blog-post';
 import { buildParamsWithPro } from '@/api/utils';
-import { TutorStatus } from '@/type/constants';
-import type { TTutor } from '@/type/tutor';
 import { PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
@@ -32,9 +30,13 @@ const BlogPostListPage = () => {
       key: 'id',
     },
     {
+      title: 'Banner',
+      dataIndex: ['banner', 'url'],
+      valueType: 'image',
+    },
+    {
       title: 'Tên bài viết',
       dataIndex: 'title',
-      key: 'name',
     },
     {
       title: 'Miêu tả',
@@ -74,8 +76,8 @@ const BlogPostListPage = () => {
         columns={goodsColumns}
         request={(...params) =>
           blogPostApi.get(buildParamsWithPro(...params)).then((res) => ({
-            data: res.data,
-            total: res.data.length,
+            data: res.data.items,
+            total: res.data.items.length,
           }))
         }
       />

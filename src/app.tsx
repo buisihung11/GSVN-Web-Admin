@@ -6,11 +6,10 @@ import { PageLoading } from '@ant-design/pro-layout';
 import { Button, Result } from 'antd';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
-import { AuthState, AuthUser } from './@types/authentication';
+import { AuthUser } from './@types/authentication';
 import { getSession, isValidToken } from './utils/jwt';
 import { getUserInfo } from './utils/utils';
 
-const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
@@ -39,7 +38,6 @@ export async function getInitialState(): Promise<{
 
   const currentUser = await fetchUserInfo();
   const isAuthentited = currentUser && isValidToken(getSession()!);
-  console.log(`currentUser, isAuthenticated `, currentUser, isAuthentited);
   if (history.location.pathname !== loginPath) {
     return {
       fetchUserInfo,

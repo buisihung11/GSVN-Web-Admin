@@ -7,6 +7,8 @@ import { Card, Empty, Spin } from 'antd';
 import blogPostApi from '@/api/blog-post';
 import useRequest from '@ahooksjs/use-request';
 import UploadFile from '@/components/Upload/UploadFile';
+import { TBlogPost } from '@/type/blog-post';
+import { merge } from 'lodash';
 
 const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>) => {
   const {
@@ -20,6 +22,13 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
     },
   );
 
+  const updatePost = async (values: TBlogPost) => {
+    const data = merge(blogpost, values);
+    console.log(`data`, data);
+    await blogPostApi.update(blogpostId, data);
+    return true;
+  };
+
   if (loading) {
     return <Spin />;
   }
@@ -28,21 +37,23 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
     return <Empty description="không tìm thấy bài viết" />;
   }
 
+  console.log(`blogpost`, blogpost);
+
   return (
     <PageContainer>
       <Card>
         <ProForm
-          initialValues={blogpost}
+          initialValues={{ ...blogpost, bannerId: blogpost?.banner?.id }}
           submitter={{
             searchConfig: {
               submitText: 'Cập nhật',
             },
           }}
-          onFinish={async (values) => {
-            await blogPostApi.create(values);
-            return true;
-          }}
+          onFinish={updatePost}
         >
+          <ProFormText hidden name="bannerId" />
+          <ProFormText hidden name="id" />
+          <ProFormText hidden name={['banner', 'id']} />
           <ProForm.Item label="Ảnh bìa" name={['banner', 'url']}>
             <UploadFile accept="image/*" style={{ height: '100%', width: '400px' }} />
           </ProForm.Item>

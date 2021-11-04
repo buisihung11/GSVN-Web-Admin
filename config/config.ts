@@ -174,11 +174,11 @@ export default defineConfig({
         {
           path: '/admin/email-template/create',
           component: './email-template/create',
+          exact: true,
         },
         {
           path: '/admin/email-template/:emailId',
           component: './email-template/[emailId]',
-          exact: true,
         },
         {
           path: '/admin/email-template',

@@ -1,8 +1,8 @@
 import { TBlogPost } from '@/type/blog-post';
-import { generateAPI } from './utils';
+import { generateAPIWithPaging } from './utils';
 
 const blogPostApi = {
-  ...generateAPI<TBlogPost>('posts'),
+  ...generateAPIWithPaging<TBlogPost>('posts'),
 };
 
 export default blogPostApi;

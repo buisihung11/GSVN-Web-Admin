@@ -3,6 +3,11 @@ import { ProFormColumnsType } from '@ant-design/pro-form';
 
 export const columns: ProFormColumnsType[] = [
   {
+    title: 'Tiêu đề',
+    dataIndex: 'subject',
+    hideInSearch: true,
+  },
+  {
     title: 'Nội dung',
     dataIndex: 'content',
     hideInSearch: true,
