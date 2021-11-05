@@ -3,19 +3,35 @@ import { ProFormColumnsType } from '@ant-design/pro-form';
 
 export const columns: ProFormColumnsType[] = [
   {
-    title: 'Tiêu đề',
-    dataIndex: 'subject',
-    hideInSearch: true,
+    valueType: 'group',
+    columns: [
+      {
+        title: 'Tiêu đề',
+        dataIndex: 'subject',
+        hideInSearch: true,
+        width: 'md',
+      },
+      {
+        title: 'Kích hoạt',
+        dataIndex: 'isActive',
+        valueType: 'switch',
+        width: 'md',
+        valueEnum: {
+          true: {
+            text: 'Kích hoạt',
+          },
+          false: {
+            text: 'Chưa kích hoạt',
+          },
+        },
+      },
+    ],
   },
-  {
-    title: 'Nội dung',
-    dataIndex: 'content',
-    hideInSearch: true,
-  },
+
   {
     title: 'Loại',
     dataIndex: 'class',
-    width: 250,
+    width: 'md',
     valueType: 'select',
     valueEnum: {
       [EmailClassType.ACCOUNT_CREATED]: {
@@ -23,20 +39,6 @@ export const columns: ProFormColumnsType[] = [
       },
       [EmailClassType.ORDER_CREATED]: {
         text: 'Tạo đơn hàng thành công',
-      },
-    },
-  },
-  {
-    title: 'Kích hoạt',
-    dataIndex: 'isActive',
-    valueType: 'radio',
-    width: 250,
-    valueEnum: {
-      true: {
-        text: 'Kích hoạt',
-      },
-      false: {
-        text: 'Chưa kích hoạt',
       },
     },
   },

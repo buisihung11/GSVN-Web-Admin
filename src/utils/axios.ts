@@ -68,7 +68,7 @@ request.interceptors.response.use((response) => {
     status,
     config: { method },
   } = response;
-
+  console.log(`status`, status);
   switch (status) {
     case 200:
       if (method !== 'get')
@@ -110,6 +110,12 @@ request.interceptors.response.use((response) => {
       notification.error({
         message: response.statusText,
         description: `${response.data.body?.message}`,
+      });
+      break;
+    case 500:
+      notification.error({
+        message: 'Có lỗi xảy ra',
+        description: `Vui lòng liên hệ kỹ thuật viên để kiểm tra`,
       });
       break;
     default:

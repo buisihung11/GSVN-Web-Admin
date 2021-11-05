@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
-import { useState } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
-import { uploadfile } from '@/api/file';
 import spinnerPath from '@/assets/images/spinner.svg';
-import 'react-quill/dist/quill.snow.css';
-import ImageResize from 'quill-image-resize-module-react';
 import firebaseStorageService from '@/services/firebaseStorage';
+import ImageResize from 'quill-image-resize-module-react';
+import { forwardRef, useState } from 'react';
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -47,8 +46,8 @@ function imageUpload() {
   };
 }
 
-const ResoEditor = (props) => {
-  const [editorHtml, setEditorHtml] = useState('');
+const ResoEditor = forwardRef((props, ref) => {
+  const [, setEditorHtml] = useState('');
   const handleChange = (html) => setEditorHtml(html);
 
   const modules = {
@@ -103,9 +102,10 @@ const ResoEditor = (props) => {
       modules={modules}
       formats={formats}
       {...props}
+      ref={ref}
       onchange={handleChange}
     />
   );
-};
+});
 
 export default ResoEditor;

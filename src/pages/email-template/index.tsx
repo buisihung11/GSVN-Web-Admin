@@ -1,4 +1,3 @@
-import badgeApi from '@/api/badge';
 import emailTemplateApi from '@/api/emailTemplate';
 import { buildParamsWithPro } from '@/api/utils';
 import { EmailClassType } from '@/type/email-template';
@@ -6,7 +5,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, Divider, Modal, Space } from 'antd';
 import { useRef } from 'react';
-import { Link, history } from 'umi';
+import { history, Link } from 'umi';
 
 const EmailTemplateListPage = () => {
   const ref = useRef<ActionType>();
@@ -15,7 +14,7 @@ const EmailTemplateListPage = () => {
     Modal.confirm({
       title: 'Xác nhận xóa',
       onOk: () => {
-        return badgeApi.delete(accountId).then(() => {
+        return emailTemplateApi.delete(accountId).then(() => {
           if (ref.current?.reload) {
             ref.current.reload();
           }
