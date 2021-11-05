@@ -6,6 +6,14 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { Card } from 'antd';
 
 const CreateBlogPage = () => {
+  const onCreatePost = async (values: any) => {
+    const data = { ...values };
+    data.tags = data.tags?.join(',');
+    console.log(`data`, data);
+    await blogPostApi.create(data);
+    return true;
+  };
+
   return (
     <PageContainer>
       <Card>
@@ -15,10 +23,7 @@ const CreateBlogPage = () => {
               submitText: 'Tạo',
             },
           }}
-          onFinish={async (values) => {
-            await blogPostApi.create(values);
-            return true;
-          }}
+          onFinish={onCreatePost}
         >
           <ProForm.Item label="Ảnh bìa" name={['banner', 'url']}>
             <UploadFile accept="image/*" style={{ height: '100%', width: '400px' }} />
@@ -41,6 +46,9 @@ const CreateBlogPage = () => {
               mode="tags"
               width="md"
               options={['Tutor', 'Student']}
+              fieldProps={{
+                tokenSeparators: [','],
+              }}
             />
           </ProForm.Group>
           <ProForm.Group>

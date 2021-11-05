@@ -6,4 +6,5 @@ export type TBlogPost = {
   title: string;
   detail: string;
   banner?: File;
+  tags: string;
 };

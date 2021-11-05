@@ -24,6 +24,7 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
 
   const updatePost = async (values: TBlogPost) => {
     const data = merge(blogpost, values);
+    data.tags = (data.tags as any)?.join(',');
     console.log(`data`, data);
     await blogPostApi.update(blogpostId, data);
     return true;
@@ -37,13 +38,15 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
     return <Empty description="không tìm thấy bài viết" />;
   }
 
-  console.log(`blogpost`, blogpost);
-
   return (
     <PageContainer>
       <Card>
         <ProForm
-          initialValues={{ ...blogpost, bannerId: blogpost?.banner?.id }}
+          initialValues={{
+            ...blogpost,
+            bannerId: blogpost?.banner?.id,
+            tags: blogpost.tags?.split(','),
+          }}
           submitter={{
             searchConfig: {
               submitText: 'Cập nhật',
@@ -75,6 +78,9 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
               mode="tags"
               width="md"
               options={['Tutor', 'Student']}
+              fieldProps={{
+                tokenSeparators: [','],
+              }}
             />
           </ProForm.Group>
           <ProForm.Group>

@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Button, Divider, Modal, Space } from 'antd';
+import { Button, Divider, Modal, Space, Tag } from 'antd';
 import faker from 'faker';
 import { useRef } from 'react';
 import { history, Link } from 'umi';
@@ -37,6 +37,17 @@ const BlogPostListPage = () => {
     {
       title: 'Tên bài viết',
       dataIndex: 'title',
+    },
+    {
+      title: 'Thẻ',
+      dataIndex: 'tags',
+      render: (_, { tags }) => (
+        <Space>
+          {tags?.split(',').map((t: string) => (
+            <Tag key={t}>{t}</Tag>
+          ))}
+        </Space>
+      ),
     },
     {
       title: 'Miêu tả',
