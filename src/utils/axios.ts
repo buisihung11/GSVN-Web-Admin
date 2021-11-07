@@ -29,7 +29,7 @@ const parseParams = (params: any) => {
 };
 
 const request = axios.create({
-  baseURL: 'https://api.tutorup.edu.vn/api/admin',
+  baseURL: 'https://internal.tutorup.edu.vn/api/admin',
   paramsSerializer: parseParams,
 });
 

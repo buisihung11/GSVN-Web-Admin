@@ -63,6 +63,26 @@ const CreateEmailTemplatePage = () => {
                         label: 'Mã đơn hàng',
                         value: 'Model.Order.Id',
                       },
+                      {
+                        label: 'Số giờ',
+                        value: 'Model.Order.HoursPerWeek',
+                      },
+                      {
+                        label: 'Hình thức học',
+                        value: 'Model.Order.TeachForm',
+                      },
+                      {
+                        label: 'Môn học',
+                        value: 'Model.Order.CoursingTitle',
+                      },
+                      {
+                        label: 'Cấp bậc',
+                        value: 'Model.Order.CoursingLevel',
+                      },
+                      {
+                        label: 'Tổng tiền',
+                        value: 'Model.Order.FinalAmount',
+                      },
                     ]}
                   />
                 </ModalForm>
