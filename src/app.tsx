@@ -62,10 +62,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     disableContentMargin: false,
     footerRender: () => <Footer />,
     onPageChange: () => {
-      // const { location } = history;
-      // if (!initialState?.isAuthenticated && location.pathname !== loginPath) {
-      //   history.push(loginPath);
-      // }
+      const { location } = history;
+      const userInfo = getUserInfo();
+      if (!userInfo && location.pathname !== loginPath) {
+        history.push(loginPath);
+      }
     },
     breadcrumbRender: (routers = []) => [
       {

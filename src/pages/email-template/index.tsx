@@ -30,9 +30,10 @@ const EmailTemplateListPage = () => {
       hideInSearch: true,
     },
     {
-      title: 'Nội dung',
-      dataIndex: 'content',
+      title: 'Tiêu đề',
+      dataIndex: 'subject',
       hideInSearch: true,
+      width: 250,
     },
     {
       title: 'Loại',

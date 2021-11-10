@@ -63,71 +63,76 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-request.interceptors.response.use((response) => {
-  const {
-    status,
-    config: { method },
-  } = response;
-  console.log(`status`, status);
-  switch (status) {
-    case 200:
-      if (method !== 'get')
-        notification.success({
-          message: 'Thành công',
-          description: codeMessage[200],
-        });
-      break;
-    case 201:
-      if (method !== 'GET')
-        notification.success({
-          message: 'Thành công',
-          description: codeMessage[201],
-        });
-      break;
-    case 401:
-      notification.error({
-        message: 'Unauthorization',
-        description: 'Not Logged in. Please Loggin',
-      });
-      /* eslint-disable no-underscore-dangle */
-      setSession(null);
-      setUserInfo(null);
-      // eslint-disable-next-line no-restricted-globals
-      location.href = '/user/login';
-      // setTimeout(() => {
-      //   window.g_app._store.dispatch({
-      //     type: 'login/logout',
-      //   });
-      // }, 3000);
-      break;
-    case 403:
-      notification.error({
-        message: response.statusText,
-        description: `Your request to ${response.config.url} was forbiden`,
-      });
-      break;
-    case 405:
-      notification.error({
-        message: response.statusText,
-        description: `${response.data.body?.message}`,
-      });
-      break;
-    case 500:
-      notification.error({
-        message: 'Có lỗi xảy ra',
-        description: `Vui lòng liên hệ kỹ thuật viên để kiểm tra`,
-      });
-      break;
-    default:
-      break;
-  }
-
-  return response;
-});
-
 request.interceptors.response.use(
-  (response) => response,
-  (error) => Promise.reject((error.response && error.response.data) || 'Có lỗi xảy ra'),
+  (response) => {
+    const {
+      status,
+      config: { method },
+    } = response;
+    console.log(`status`, status, response);
+    switch (status) {
+      case 200:
+        if (method !== 'get')
+          notification.success({
+            message: 'Thành công',
+            description: codeMessage[200],
+          });
+        break;
+      case 201:
+        if (method !== 'GET')
+          notification.success({
+            message: 'Thành công',
+            description: codeMessage[201],
+          });
+        break;
+      case 401:
+        notification.error({
+          message: 'Unauthorization',
+          description: 'Not Logged in. Please Loggin',
+        });
+        /* eslint-disable no-underscore-dangle */
+        setSession(null);
+        setUserInfo(null);
+        // eslint-disable-next-line no-restricted-globals
+        location.href = '/user/login';
+        // setTimeout(() => {
+        //   window.g_app._store.dispatch({
+        //     type: 'login/logout',
+        //   });
+        // }, 3000);
+        break;
+      case 403:
+        notification.error({
+          message: response.statusText,
+          description: `Your request to ${response.config.url} was forbiden`,
+        });
+        break;
+      case 405:
+        notification.error({
+          message: response.statusText,
+          description: `${response.data.body?.message}`,
+        });
+        break;
+      case 500:
+        notification.error({
+          message: 'Có lỗi xảy ra',
+          description: `Vui lòng liên hệ kỹ thuật viên để kiểm tra`,
+        });
+        break;
+      default:
+        break;
+    }
+
+    return response;
+  },
+  (error) => {
+    const msg = (error.response && error.response.data?.error?.message) || 'Có lỗi xảy ra';
+    notification.error({
+      message: 'Có lỗi xảy ra',
+      description: msg,
+    });
+    Promise.reject(msg);
+  },
 );
 
 export default request;

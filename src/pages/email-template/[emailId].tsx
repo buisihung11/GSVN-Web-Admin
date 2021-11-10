@@ -6,6 +6,7 @@ import useRequest from '@ahooksjs/use-request';
 import ProForm, { BetaSchemaForm, ModalForm, ProFormSelect } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Button, Card, Empty, Space, Typography } from 'antd';
+import { AxiosResponse } from 'axios';
 import { useRef } from 'react';
 import ReactQuill from 'react-quill';
 import { IRouteComponentProps } from 'umi';
@@ -16,19 +17,19 @@ const UpdateEmailTemplatePage = ({ match }: IRouteComponentProps<{ emailId: stri
     params: { emailId },
   } = match;
 
-  console.log(`emailId`, emailId);
-  const { data } = useRequest<TCourse>(
+  const { data } = useRequest<AxiosResponse<TCourse>>(
     () => emailTemplateApi.getById(+emailId),
 
     {
       ready: Boolean(emailId),
+      formatResult: (res) => res.data,
     },
   );
 
   const emailTemplate = data as TCourse;
 
   const handleUpdateEmailTemplate = async (values: EmailTemplate) => {
-    await emailTemplateApi.update(emailTemplate?.id, values);
+    await emailTemplateApi.update(emailTemplate?.id, { ...emailTemplate, ...values });
     return true;
   };
   const editorRef = useRef<ReactQuill>();
@@ -52,6 +53,7 @@ const UpdateEmailTemplatePage = ({ match }: IRouteComponentProps<{ emailId: stri
   if (!emailTemplate) {
     return <Empty description="không tìm thấy Khóa học" />;
   }
+  console.log(`emailTemplate`, emailTemplate);
 
   return (
     <PageContainer>
@@ -60,12 +62,12 @@ const UpdateEmailTemplatePage = ({ match }: IRouteComponentProps<{ emailId: stri
           initialValues={emailTemplate}
           submitter={{
             searchConfig: {
-              submitText: 'Tạo',
+              submitText: 'Cập nhật',
             },
           }}
           onFinish={handleUpdateEmailTemplate}
         >
-          <BetaSchemaForm layoutType="Embed" columns={columns} />
+          <BetaSchemaForm initialValues={emailTemplate} layoutType="Embed" columns={columns} />
           <ProForm.Item
             label={
               <Space>

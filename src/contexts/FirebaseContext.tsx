@@ -1,19 +1,17 @@
-import { createContext, ReactNode, useEffect, useReducer, useState } from 'react';
+import { TStudent } from '@/type/student';
+import { TTutor } from '@/type/tutor';
+import { setSession } from '@/utils/jwt';
+import { setUserInfo } from '@/utils/utils';
+import { notification } from 'antd';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
+import { createContext, ReactNode, useEffect, useReducer, useState } from 'react';
 // @types
 import { ActionMap, AuthState, AuthUser, FirebaseContextType } from '../@types/authentication';
 //
 import { firebaseConfig } from '../config';
-import { setSession } from '@/utils/jwt';
-import studentApi from '@/api/student';
-import tutorApi from '@/api/tutor';
-import { getUserInfo, setUserInfo } from '@/utils/utils';
-import { TTutor } from '@/type/tutor';
-import { TStudent } from '@/type/student';
-import { notification } from 'antd';
 
 // ----------------------------------------------------------------------
 
@@ -72,11 +70,8 @@ const reducer = (state: AuthState, action: FirebaseActions) => {
 const AuthContext = createContext<FirebaseContextType | null>(null);
 
 function AuthProvider({ children }: { children: ReactNode }) {
-  const [profile, setProfile] = useState<
-    firebase.firestore.DocumentData | TTutor | TStudent | undefined
-  >();
+  const [profile] = useState<firebase.firestore.DocumentData | TTutor | TStudent | undefined>();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [loading, setLoading] = useState(true);
 
   useEffect(
     () =>
@@ -84,7 +79,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
         if (user) {
           const CLAIM_KEY = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
           const tokenRes = await user.getIdTokenResult();
-          console.log('tokenRes🍔', tokenRes);
 
           const idToken = await user.getIdToken();
           setSession(idToken);
@@ -92,7 +86,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
           const role = tokenRes.claims[CLAIM_KEY];
           const userId = tokenRes.claims['user-id'];
 
-          console.log(`role`, role);
           // let userInfo: TTutor | TStudent | string | null = getUserInfo();
           // if (!userInfo) {
           //   userInfo = {

@@ -1,7 +1,4 @@
-import { TutorStatus } from '@/type/constants';
-import { TCreateOrderRequest, TOrder } from '@/type/order';
-import { TTutor, TTutorRegister } from '@/type/tutor';
-import request from '@/utils/axios';
+import { TTutor } from '@/type/tutor';
 import { generateAPIWithPaging } from './utils';
 
 const userApi = {

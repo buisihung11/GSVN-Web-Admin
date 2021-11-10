@@ -1,6 +1,7 @@
 import blogPostApi from '@/api/blog-post';
 import ResoEditor from '@/components/ResoEditor/ResoEditor';
 import UploadFile from '@/components/Upload/UploadFile';
+import { PostType } from '@/type/blog-post';
 import ProForm, { ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card } from 'antd';
@@ -25,9 +26,12 @@ const CreateBlogPage = () => {
           }}
           onFinish={onCreatePost}
         >
-          <ProForm.Item label="Ảnh bìa" name={['banner', 'url']}>
-            <UploadFile accept="image/*" style={{ height: '100%', width: '400px' }} />
-          </ProForm.Item>
+          <ProForm.Group>
+            <ProForm.Item label="Ảnh bìa" name={['banner', 'url']}>
+              <UploadFile accept="image/*" style={{ height: '100%', width: '400px' }} />
+            </ProForm.Item>
+            <ProFormText label="Slug" name="slug" width="md" />
+          </ProForm.Group>
           <ProForm.Group>
             <ProFormText
               rules={[
@@ -53,6 +57,12 @@ const CreateBlogPage = () => {
           </ProForm.Group>
           <ProForm.Group>
             <ProFormTextArea label="Miêu tả bài viết" name="detail" width="md" />
+            <ProFormSelect
+              label="Loại bài viết"
+              options={Object.values(PostType)}
+              name="class"
+              width="md"
+            />
           </ProForm.Group>
           <ProForm.Item label="Nội dung bài viết" name="content">
             <ResoEditor />

@@ -7,7 +7,7 @@ import { Card, Empty, Spin } from 'antd';
 import blogPostApi from '@/api/blog-post';
 import useRequest from '@ahooksjs/use-request';
 import UploadFile from '@/components/Upload/UploadFile';
-import { TBlogPost } from '@/type/blog-post';
+import { PostType, TBlogPost } from '@/type/blog-post';
 import { merge } from 'lodash';
 
 const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>) => {
@@ -57,9 +57,12 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
           <ProFormText hidden name="bannerId" />
           <ProFormText hidden name="id" />
           <ProFormText hidden name={['banner', 'id']} />
-          <ProForm.Item label="Ảnh bìa" name={['banner', 'url']}>
-            <UploadFile accept="image/*" style={{ height: '100%', width: '400px' }} />
-          </ProForm.Item>
+          <ProForm.Group>
+            <ProForm.Item label="Ảnh bìa" name={['banner', 'url']}>
+              <UploadFile accept="image/*" style={{ height: '100%', width: '400px' }} />
+            </ProForm.Item>
+            <ProFormText label="Slug" name="slug" width="md" />
+          </ProForm.Group>
           <ProForm.Group>
             <ProFormText
               rules={[
@@ -85,6 +88,12 @@ const UpdateBlogPage = ({ match }: IRouteComponentProps<{ blogpostId: string }>)
           </ProForm.Group>
           <ProForm.Group>
             <ProFormTextArea label="Miêu tả bài viết" name="detail" width="md" />
+            <ProFormSelect
+              label="Loại bài viết"
+              options={Object.values(PostType)}
+              name="class"
+              width="md"
+            />
           </ProForm.Group>
           <ProForm.Item label="Nội dung bài viết" name="content">
             <ResoEditor />

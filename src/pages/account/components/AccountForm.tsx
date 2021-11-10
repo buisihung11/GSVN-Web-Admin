@@ -1,40 +1,24 @@
 import ProForm, { ProFormSelect, ProFormText } from '@ant-design/pro-form';
 import React from 'react';
 
-interface Props {
-  updateMode?: boolean;
-}
-
-const AccountForm = ({ updateMode }: Props) => {
+const AccountForm = () => {
   return (
     <>
       <ProForm.Group>
         <ProFormText
-          label="Tên đăng nhập"
+          label="Email"
           width="md"
-          name="username"
+          name="email"
           rules={[
             {
               required: true,
-              message: 'Vui lòng chọn tên đăng nhập',
-            },
-          ]}
-        />
-        <ProFormText.Password
-          rules={[
-            {
-              required: true,
-              message: 'Vui lòng nhập mật khẩu',
+              message: 'Vui lòng nhập email',
             },
             {
-              min: 6,
-              message: 'Ít nhất 6 ký tự',
+              type: 'email',
+              message: 'Email không chính xác',
             },
           ]}
-          disabled={updateMode}
-          label="Mật khẩu"
-          width="md"
-          name="password"
         />
       </ProForm.Group>
       <ProForm.Group>
