@@ -67,128 +67,128 @@ export default defineConfig({
       path: '/',
       redirect: '/tutor',
     },
-    // {
-    //   path: '/admin',
-    //   redirect: '/tutor',
-    // },
     {
-      path: '/tutor',
+      path: '/admin',
+      redirect: '/admin/tutor',
+    },
+    {
+      path: '/admin/tutor',
       icon: 'idcard',
       name: 'tutor',
       access: 'canAdmin',
       routes: [
         {
-          path: '/tutor/:tutorId',
+          path: '/admin/tutor/:tutorId',
           component: './tutor/[tutorId]',
         },
         {
-          path: '/tutor',
+          path: '/admin/tutor',
           exact: true,
           component: './tutor',
         },
       ],
     },
     {
-      path: '/badge',
+      path: '/admin/badge',
       icon: 'safety',
       name: 'badge',
       access: 'canAdmin',
       routes: [
         {
-          path: '/badge',
+          path: '/admin/badge',
           exact: true,
           component: './badge',
         },
       ],
     },
     {
-      path: '/blog-post',
+      path: '/admin/blog-post',
       icon: 'book',
       name: 'blog-post',
       access: 'canAdmin',
       routes: [
         {
-          path: '/blog-post/create',
+          path: '/admin/blog-post/create',
           component: './blog-post/create',
           exact: true,
         },
         {
-          path: '/blog-post/:blogpostId',
+          path: '/admin/blog-post/:blogpostId',
           component: './blog-post/[blogpostId]',
         },
         {
-          path: '/blog-post',
+          path: '/admin/blog-post',
           exact: true,
           component: './blog-post',
         },
       ],
     },
     {
-      path: '/orders',
+      path: '/admin/orders',
       icon: 'carry-out',
       name: 'order',
       component: './order',
       access: 'canAdmin',
     },
     {
-      path: '/course',
+      path: '/admin/course',
       icon: 'read',
       name: 'course',
       access: 'canAdmin',
       routes: [
         {
-          path: '/course/create',
+          path: '/admin/course/create',
           component: './course/create',
           exact: true,
         },
         {
-          path: '/course/:courseId',
+          path: '/admin/course/:courseId',
           component: './course/[courseId]',
         },
         {
-          path: '/course',
+          path: '/admin/course',
           exact: true,
           component: './course',
         },
       ],
     },
     {
-      path: '/coursing',
+      path: '/admin/coursing',
       icon: 'tags',
       name: 'coursing',
       component: './coursing',
       access: 'canAdmin',
     },
     {
-      path: '/account',
+      path: '/admin/account',
       icon: 'user',
       name: 'account',
       component: './account',
       access: 'canAdmin',
     },
     {
-      path: '/email-template',
+      path: '/admin/email-template',
       icon: 'mail',
       name: 'email-template',
       routes: [
         {
-          path: '/email-template/create',
+          path: '/admin/email-template/create',
           component: './email-template/create',
           exact: true,
         },
         {
-          path: '/email-template/:emailId',
+          path: '/admin/email-template/:emailId',
           component: './email-template/[emailId]',
         },
         {
-          path: '/email-template',
+          path: '/admin/email-template',
           component: './email-template',
         },
       ],
       access: 'canAdmin',
     },
     {
-      path: '/setting',
+      path: '/admin/setting',
       name: 'setting',
       component: './setting',
       hideInMenu: true,
@@ -210,9 +210,8 @@ export default defineConfig({
   proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {
     basePath: '/admin',
-    publicPath: '/admin/',
   },
-  publicPath: '/admin/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/admin/' : '/',
   // Fast Refresh 热更新
   fastRefresh: {},
   nodeModulesTransform: {
