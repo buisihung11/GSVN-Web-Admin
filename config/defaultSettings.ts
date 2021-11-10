@@ -14,7 +14,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: 'Gia Sư Việt Nam',
   pwa: true,
-  logo: '/gsvn-logo.png',
+  logo: '/admin/gsvn-logo.png',
   iconfontUrl: '',
 };
 
