@@ -212,6 +212,7 @@ export default defineConfig({
     basePath: '/admin',
     publicPath: '/admin/',
   },
+  publicPath: '/admin/',
   // Fast Refresh 热更新
   fastRefresh: {},
   nodeModulesTransform: {
