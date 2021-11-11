@@ -29,8 +29,8 @@ const Login: React.FC = () => {
       setSubmitting(true);
       if (userRole === 'Administrator') {
         goto('/admin');
-      } else if (userRole === 'moderator') {
-        // goto('/moderator');
+      } else if (userRole === 'Moderator') {
+        goto('/moderator');
       }
       setSubmitting(false);
     }

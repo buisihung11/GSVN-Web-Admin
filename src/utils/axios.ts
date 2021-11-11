@@ -69,7 +69,6 @@ request.interceptors.response.use(
       status,
       config: { method },
     } = response;
-    console.log(`status`, status, response);
     switch (status) {
       case 200:
         if (method !== 'get')

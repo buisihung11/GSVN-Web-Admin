@@ -9,6 +9,7 @@ export default function access(initialState: { currentUser?: AuthUser | undefine
   console.log(`currentUser`, currentUser);
   return {
     canAdmin: () => currentUser && currentUser?.role === 'Administrator',
-    canModerator: currentUser && currentUser?.role === 'moderator',
+    canModerator: () => currentUser && currentUser?.role === 'Moderator',
+    hasAuthen: () => currentUser && currentUser?.role,
   };
 }

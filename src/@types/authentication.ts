@@ -15,7 +15,7 @@ export type AuthUser = null | {
   email?: string | null;
   displayName?: any;
   emailVerified?: boolean;
-  role?: 'Administrator' | 'moderator' | '';
+  role?: 'Administrator' | 'Moderator' | '';
   photoURL?: any;
   [key: string]: any;
 };

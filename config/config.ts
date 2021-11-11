@@ -105,7 +105,7 @@ export default defineConfig({
       path: '/admin/blog-post',
       icon: 'book',
       name: 'blog-post',
-      access: 'canAdmin',
+      access: 'hasAuthen',
       routes: [
         {
           path: '/admin/blog-post/create',

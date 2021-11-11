@@ -85,7 +85,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
           const role = tokenRes.claims[CLAIM_KEY];
           const userId = tokenRes.claims['user-id'];
-
+          console.log(`role`, role);
           // let userInfo: TTutor | TStudent | string | null = getUserInfo();
           // if (!userInfo) {
           //   userInfo = {
