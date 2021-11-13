@@ -33,9 +33,13 @@ const OrderListPage = () => {
   const [currentOrder, setCurrentOrder] = useState<TOrder | null>(null);
   const handleApproveOrder = async (data: { detail: string }) => {
     if (currentOrder) {
+      const updateStatus =
+        currentOrder.currentStatus === OrderStatus.TUTOR_CONFIRMED
+          ? OrderStatus.CLOSED
+          : OrderStatus.ADMIN_CONFIRMED;
       await orderApi.updateOrderStatus(currentOrder?.id, {
         detail: data.detail,
-        orderStatus: OrderStatus.ADMIN_CONFIRMED,
+        orderStatus: updateStatus,
       });
     }
     ref.current?.reload();
@@ -243,16 +247,21 @@ const OrderListPage = () => {
       fixed: 'right',
       render: (_, data) => {
         const isNeedApprove = data.currentStatus === OrderStatus.NEW;
+        const canClose = data.currentStatus === OrderStatus.TUTOR_CONFIRMED;
         return (
           <DrawerForm
             submitter={{
               searchConfig: {
-                submitText: isNeedApprove ? 'Xét duyệt' : 'Đóng',
+                submitText: isNeedApprove
+                  ? 'Xét duyệt'
+                  : canClose
+                  ? 'Đánh dấu đã hoàn thành'
+                  : 'Đóng',
                 resetText: 'Quay lại',
               },
             }}
             onFinish={() => {
-              if (isNeedApprove) {
+              if (isNeedApprove || canClose) {
                 setCurrentOrder(data);
               }
               return new Promise((res) => res(true));
@@ -271,11 +280,19 @@ const OrderListPage = () => {
       <ModalForm
         visible={Boolean(currentOrder)}
         onVisibleChange={(visible) => !visible && setCurrentOrder(null)}
-        title={`Xác nhận xét duyệt cho đơn hàng #${currentOrder?.id}?`}
+        title={`Xác nhận ${
+          currentOrder?.currentStatus !== OrderStatus.TUTOR_CONFIRMED ? 'xét duyệt' : 'hoàn thành'
+        } cho đơn hàng #${currentOrder?.id}?`}
         onFinish={handleApproveOrder}
         width={400}
       >
-        <Alert showIcon message="Xác nhận giảng viên có thể nhận đơn hàng này." type="info" />
+        <Alert
+          showIcon
+          message={`Xác nhận giảng viên có thể ${
+            currentOrder?.currentStatus !== OrderStatus.TUTOR_CONFIRMED ? 'nhận' : 'hoàn thành'
+          } đơn hàng này.`}
+          type="info"
+        />
         <ProFormTextArea name="detail" label="Nội dung" width="md" />
       </ModalForm>
       <ProTable<TOrder>

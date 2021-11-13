@@ -80,6 +80,27 @@ const tutorInfoSection = (tutor: TTutor) => (
   </Descriptions>
 );
 
+const tutorPaymentInfoSection = (tutor: TTutor) => {
+  const bankingAccount = tutor.bankingAccountOwners && tutor.bankingAccountOwners[0];
+
+  return (
+    <Descriptions title="Thông tin thanh toán" size="small" column={2}>
+      {!bankingAccount ? (
+        <Typography>Tutor chưa cập nhật thông tin thanh toán</Typography>
+      ) : (
+        <>
+          <Descriptions.Item label="Ngân hàng">{bankingAccount.bankName}</Descriptions.Item>
+          <Descriptions.Item label="Chi nhánh">{bankingAccount.bankBranch}</Descriptions.Item>
+          <Descriptions.Item label="Số tài khoản">{bankingAccount.cardNumber}</Descriptions.Item>
+          <Descriptions.Item label="Tên chủ tài khoản">
+            {bankingAccount.cardHolder}
+          </Descriptions.Item>
+        </>
+      )}
+    </Descriptions>
+  );
+};
+
 const teachingInfoSection = (tutor: TTutor) => (
   <>
     <Descriptions title="Thông tin dạy học" size="small" column={2}>
@@ -118,15 +139,25 @@ const teachingInfoSection = (tutor: TTutor) => (
 );
 
 const certificateSection = (tutor: TTutor) => {
+  const introUrl = tutor.introVideo?.url;
   const videoURL = tutor.demoVideo?.url;
   const certificatesLinks = tutor.certificates?.map((c) => c.file.url) ?? [];
   return (
     <>
       <Descriptions layout="vertical" title="Video giới thiệu và bằng cấp" size="middle" column={2}>
-        <Descriptions.Item label="Video giới thiệu">
+        <Descriptions.Item label="Video dạy thử">
           {videoURL ? (
             <video controls style={{ width: '100%', height: '100%' }}>
               <source src={videoURL} type="video/mp4"></source>
+            </video>
+          ) : (
+            'N/A'
+          )}
+        </Descriptions.Item>
+        <Descriptions.Item label="Video giới thiệu">
+          {introUrl ? (
+            <video controls style={{ width: '100%', height: '100%' }}>
+              <source src={introUrl} type="video/mp4"></source>
             </video>
           ) : (
             'N/A'
@@ -247,6 +278,8 @@ const TutorDetailPage = ({ match }: IRouteComponentProps<{ tutorId: string }>) =
       </ModalForm>
       <Card bordered={false}>
         {tutorInfoSection(tutor)}
+        <Divider style={{ marginBottom: 32 }} />
+        {tutorPaymentInfoSection(tutor)}
         <Divider style={{ marginBottom: 32 }} />
         {teachingInfoSection(tutor)}
         <Divider style={{ marginBottom: 32 }} />

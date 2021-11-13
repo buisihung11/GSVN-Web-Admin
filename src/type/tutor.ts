@@ -36,8 +36,16 @@ export type TTutor = {
   demoVideo?: DemoVideo;
   introVideo?: IntroVideo;
   certificates?: Certificate[];
+  bankingAccountOwners?: TBankingAccount[];
 };
 
+export type TBankingAccount = {
+  cardHolder: string;
+  cardNumber: string;
+  cardMemberSince: string;
+  bankName: string;
+  bankBranch: string;
+};
 export type TutorCoursing = {
   id: number;
   rate: number;
