@@ -12,7 +12,7 @@ const goto = (root: string) => {
   setTimeout(() => {
     const { query } = history.location;
     const { redirect } = query as { redirect: string };
-    history.push(redirect || root);
+    location.href = redirect || root;
   }, 10);
 };
 

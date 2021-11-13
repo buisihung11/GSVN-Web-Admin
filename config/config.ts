@@ -188,6 +188,22 @@ export default defineConfig({
       access: 'canAdmin',
     },
     {
+      path: '/admin/contact',
+      icon: 'send',
+      name: 'contact',
+      routes: [
+        {
+          path: '/admin/contact/:emailId',
+          component: './email-template/[emailId]',
+        },
+        {
+          path: '/admin/contact',
+          component: './contact',
+        },
+      ],
+      access: 'canAdmin',
+    },
+    {
       path: '/admin/setting',
       name: 'setting',
       component: './setting',

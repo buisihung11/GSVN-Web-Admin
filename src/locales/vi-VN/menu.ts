@@ -24,4 +24,5 @@ export default {
   'menu.setting': 'Cấu hình',
   'menu.email-template': 'Mẫu email',
   'menu.badge': 'Danh hiệu',
+  'menu.contact': 'Liên hệ',
 };

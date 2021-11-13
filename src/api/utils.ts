@@ -6,8 +6,8 @@ import { SortOrder } from 'antd/lib/table/interface';
 
 export const buildParamsWithPro = (
   {
-    current,
-    pageSize,
+    current = 1,
+    pageSize = 10,
     ...keywords
   }: Record<string, any> & {
     pageSize?: number | undefined;
