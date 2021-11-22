@@ -40,6 +40,9 @@ export const columns: ProFormColumnsType[] = [
       [EmailClassType.ORDER_CREATED]: {
         text: 'Tạo đơn hàng thành công',
       },
+      [EmailClassType.OTHER]: {
+        text: 'Khác',
+      },
     },
   },
 ];

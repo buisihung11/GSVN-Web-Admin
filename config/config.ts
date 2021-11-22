@@ -204,6 +204,22 @@ export default defineConfig({
       access: 'canAdmin',
     },
     {
+      path: '/admin/configuration',
+      name: 'configuration',
+      icon: 'code',
+      routes: [
+        {
+          path: '/admin/configuration/:versionId',
+          component: './setting/[versionId]',
+        },
+        {
+          path: '/admin/configuration',
+          component: './setting/configuration-list',
+        },
+      ],
+      access: 'canAdmin',
+    },
+    {
       path: '/admin/setting',
       name: 'setting',
       component: './setting',

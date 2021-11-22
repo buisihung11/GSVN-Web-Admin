@@ -9,4 +9,5 @@ export type EmailTemplate = {
 export enum EmailClassType {
   ACCOUNT_CREATED = 'accountCreated',
   ORDER_CREATED = 'orderCreated',
+  OTHER = 'other',
 }

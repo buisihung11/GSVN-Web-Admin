@@ -121,7 +121,7 @@ export const getImgUrl = (imageName) =>
   `https://${window.__RUNTIME_CONFIG__.S3_BUCKETNAME}.s3.${window.__RUNTIME_CONFIG__.S3_REGION}.amazonaws.com${window.__RUNTIME_CONFIG__.S3_DIRECTORY}/${imageName}`;
 
 export const buildParamsWithPro = (
-  { current, pageSize, ...keywords },
+  { current = 1, pageSize = 10, ...keywords },
   sorter = {},
   _filters = {},
 ) => {

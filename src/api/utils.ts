@@ -61,7 +61,7 @@ export const transformParamFromProTable = (params: {
 };
 
 export interface BaseApi<T> {
-  get: (params: any) => Promise<AxiosResponse<T[]>>;
+  get: (params?: any) => Promise<AxiosResponse<T[]>>;
   create: (data: Partial<T>) => Promise<AxiosResponse<T>>;
   getById: (id: any, params?: any) => Promise<AxiosResponse<T>>;
   delete: (id: any) => Promise<AxiosResponse<any>>;
