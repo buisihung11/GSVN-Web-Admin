@@ -32,18 +32,13 @@ const UpdateConfigurationPage = ({ match }: IRouteComponentProps<{ versionId: st
 
   const handleUpdateConfiguration = async (values: any) => {
     console.log(`values`, values);
-    // await configurationApi.update(configutaion?.id, { ...configutaion, ...values });
+    await configurationApi.createConfiguration(values?.version, { ...configutaion, ...values });
     return true;
   };
-
-  // if (loading) {
-  //   return <Spin />;
-  // }
 
   if (!configutaion) {
     return <Empty description="không tìm thấy Khóa học" />;
   }
-  console.log(`emailTemplate`, configutaion, normalizeConfiguration(configutaion));
 
   return (
     <PageContainer>

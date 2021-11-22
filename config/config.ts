@@ -209,6 +209,11 @@ export default defineConfig({
       icon: 'code',
       routes: [
         {
+          path: '/admin/configuration/create',
+          component: './setting/create',
+          exact: true,
+        },
+        {
           path: '/admin/configuration/:versionId',
           component: './setting/[versionId]',
         },

@@ -6,6 +6,13 @@ export const columns: ProFormColumnsType[] = [
     dataIndex: 'version',
     valueType: 'digit',
     width: 'md',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+        },
+      ],
+    },
   },
   {
     valueType: 'group',
