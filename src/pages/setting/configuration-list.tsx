@@ -1,5 +1,6 @@
 import configurationApi from '@/api/configuration';
 import { buildParamsWithPro } from '@/utils/utils';
+import { PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { Space, Button, Divider } from 'antd';
@@ -14,7 +15,13 @@ const ConfigurationList = () => {
     <PageContainer>
       <ProTable
         toolBarRender={() => [
-          <Button onClick={() => history.push(`/admin/configuration/create`)}>Tạo cấu hình</Button>,
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => history.push(`/admin/configuration/create`)}
+          >
+            Tạo cấu hình
+          </Button>,
         ]}
         actionRef={ref}
         search={false}
