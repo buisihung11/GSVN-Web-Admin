@@ -49,6 +49,7 @@ const EmailTemplateListPage = () => {
         },
       },
     },
+
     {
       title: 'Kích hoạt',
       dataIndex: 'isActive',
@@ -95,6 +96,9 @@ const EmailTemplateListPage = () => {
           layout: 'vertical',
         }}
         toolBarRender={() => [
+          <Button onClick={() => history.push('/admin/email-template/send')} key="send">
+            Gửi email
+          </Button>,
           <Button
             onClick={() => history.push('/admin/email-template/create')}
             key="create"

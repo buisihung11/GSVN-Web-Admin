@@ -177,6 +177,11 @@ export default defineConfig({
           exact: true,
         },
         {
+          path: '/admin/email-template/send',
+          component: './email-template/send-mail',
+          exact: true,
+        },
+        {
           path: '/admin/email-template/:emailId',
           component: './email-template/[emailId]',
         },

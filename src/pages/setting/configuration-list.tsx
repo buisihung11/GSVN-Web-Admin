@@ -3,7 +3,7 @@ import { buildParamsWithPro } from '@/utils/utils';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { Space, Button, Divider } from 'antd';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Link, useHistory } from 'umi';
 
 const ConfigurationList = () => {
