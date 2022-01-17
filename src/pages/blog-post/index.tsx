@@ -28,11 +28,15 @@ const BlogPostListPage = () => {
       title: 'Id',
       dataIndex: 'id',
       key: 'id',
+      search: false,
+      sorter: true,
+      defaultSortOrder: 'descend',
     },
     {
       title: 'Banner',
       dataIndex: ['banner', 'url'],
       valueType: 'image',
+      search: false,
     },
     {
       title: 'Tên bài viết',
@@ -41,6 +45,7 @@ const BlogPostListPage = () => {
     {
       title: 'Thẻ',
       dataIndex: 'tags',
+      search: false,
       render: (_, { tags }) => (
         <Space>
           {tags?.split(',').map((t: string) => (

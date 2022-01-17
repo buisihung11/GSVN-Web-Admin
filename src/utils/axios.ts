@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import axios from 'axios';
 import { setSession } from './jwt';
-import { setUserInfo } from './utils';
+import { getAppToken, setUserInfo } from './utils';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +39,7 @@ request.interceptors.request.use((options) => {
   if (method === 'put' || method === 'post') {
     Object.assign(options.headers, {
       'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Bearer ${getAppToken()}`,
     });
   }
 

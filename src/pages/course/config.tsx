@@ -97,7 +97,7 @@ export const columns: ProFormColumnsType[] = [
             },
           },
           {
-            title: 'Giảm giá',
+            title: 'Giảm giá %',
             dataIndex: 'discount',
             valueType: 'digit',
             width: 'xs',

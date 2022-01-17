@@ -65,7 +65,7 @@ export default defineConfig({
     },
     {
       path: '/',
-      redirect: '/tutor',
+      redirect: '/admin/tutor',
     },
     {
       path: '/admin',

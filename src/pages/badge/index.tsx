@@ -47,7 +47,7 @@ const BadgeListPage = () => {
             Xóa
           </Button>
           <ModalForm
-            initialValues={data}
+            initialValues={{ ...data, imageUrl: data.image?.url }}
             title="Cập nhật danh hiệu"
             trigger={
               <Button type="link" key="create">
@@ -55,8 +55,15 @@ const BadgeListPage = () => {
               </Button>
             }
             onFinish={(values) => {
-              console.log(values);
-              return new Promise((res) => res(true));
+              return badgeApi
+                .update(data.id, { ...data, ...values } as any)
+                .then(() => true)
+                .then(() => {
+                  if (ref.current?.reload) {
+                    ref.current.reload();
+                  }
+                  return true;
+                });
             }}
           >
             <BadgeForm />
@@ -70,9 +77,7 @@ const BadgeListPage = () => {
     <PageContainer>
       <ProTable
         actionRef={ref}
-        search={{
-          layout: 'vertical',
-        }}
+        search={false}
         toolBarRender={() => [
           <ModalForm
             title="Tạo mới danh hiệu"
@@ -84,12 +89,12 @@ const BadgeListPage = () => {
             onFinish={(values) => {
               return badgeApi
                 .create(values)
-                .then(() => true)
                 .then(() => {
                   if (ref.current?.reload) {
                     ref.current.reload();
                   }
-                });
+                })
+                .then(() => true);
             }}
           >
             <BadgeForm />

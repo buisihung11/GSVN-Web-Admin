@@ -69,7 +69,7 @@ export interface BaseApi<T> {
 }
 export interface BaseApiWithPaging<T> {
   get: (params?: any) => Promise<AxiosResponse<BaseReponse<T>>>;
-  create: (data: Partial<T>) => Promise<AxiosResponse<BaseReponse<T>>>;
+  create: (data: Partial<T>) => Promise<AxiosResponse<T>>;
   getById: (id: any, params?: any) => Promise<AxiosResponse<T>>;
   delete: (id: any) => Promise<AxiosResponse<any>>;
   update: (id: any, data: T) => Promise<AxiosResponse<any>>;
@@ -102,7 +102,7 @@ export function generateAPIWithPaging<T>(resource: string): BaseApiWithPaging<T>
         params: transformParamFromProTable(params),
       }),
     delete: (id) => request.delete<any>(`/${resource}/${id}`),
-    create: (data) => request.post<BaseReponse<T>>(`/${resource}`, data),
+    create: (data) => request.post<T>(`/${resource}`, data),
     update: (id, data) => request.put<T>(`/${resource}/${id}`, data),
   };
 }

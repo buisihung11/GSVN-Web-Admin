@@ -203,8 +203,8 @@ export const setUserInfo = (userInfo) => setLocalStorage('USER_INFO', JSON.strin
 export const getUserInfo = () => getLocalStorage('USER_INFO');
 
 export const removeAppToken = (_token) => localStorage.removeItem('APP_TOKEN');
-export const setAppToken = (token) => setLocalStorage('APP_TOKEN', token);
-export const getAppToken = () => getLocalStorage('APP_TOKEN');
+export const setAppToken = (token) => setLocalStorage('accessToken', token);
+export const getAppToken = () => getLocalStorage('accessToken');
 
 export const getCollectionById = (id) => {
   const collections = JSON.parse(getCollections());

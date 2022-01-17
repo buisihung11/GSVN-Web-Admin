@@ -5,13 +5,16 @@ import { PostType } from '@/type/blog-post';
 import ProForm, { ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card } from 'antd';
+import { useHistory } from 'react-router';
 
 const CreateBlogPage = () => {
+  const { push } = useHistory();
   const onCreatePost = async (values: any) => {
     const data = { ...values };
     data.tags = data.tags?.join(',');
     console.log(`data`, data);
-    await blogPostApi.create(data);
+    const res = await blogPostApi.create(data);
+    push(`/admin/blog-post/${res.data.id}`);
     return true;
   };
 

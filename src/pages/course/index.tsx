@@ -26,12 +26,21 @@ const CourseListPage = () => {
 
   const columns: ProColumns[] = [
     {
+      title: 'ID',
+      dataIndex: 'id',
+      sorter: true,
+      defaultSortOrder: 'descend',
+      width: 80,
+      align: 'center',
+    },
+    {
       title: 'Banner',
       dataIndex: ['banner', 'url'],
       width: 250,
       render: (value) => (
         <Avatar shape="square" src={value} style={{ width: '80%', height: 'auto' }} />
       ),
+      search: false,
     },
     {
       title: 'Tiêu đề',
@@ -42,12 +51,14 @@ const CourseListPage = () => {
       title: 'Giáo viên phụ trách',
       dataIndex: 'inCharge',
       width: 300,
+      search: false,
     },
     {
       title: 'Miêu tả',
       dataIndex: 'content',
       hideInSearch: true,
       width: 300,
+      search: false,
       render: (value) => (
         <Typography.Paragraph
           ellipsis={{
@@ -62,6 +73,7 @@ const CourseListPage = () => {
       title: 'Độ dài khóa học',
       dataIndex: 'duration',
       valueType: 'digit',
+      search: false,
       width: 300,
       render: (duration, { durationUnit }) => (
         <span>
@@ -72,6 +84,7 @@ const CourseListPage = () => {
     {
       title: 'Giá tiền',
       dataIndex: 'amount',
+      search: false,
     },
     {
       title: 'Giảm giá',
@@ -113,6 +126,7 @@ const CourseListPage = () => {
         scroll={{
           x: 900,
         }}
+        search={false}
         toolBarRender={() => [
           <Button
             type="primary"

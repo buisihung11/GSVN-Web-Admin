@@ -1,17 +1,13 @@
-import ProForm, { ProFormText, ProFormUploadDragger } from '@ant-design/pro-form';
+import UploadFile from '@/components/Upload/UploadFile';
+import ProForm, { ProFormText } from '@ant-design/pro-form';
 
-interface Props {}
-
-const BadgeForm = (props: Props) => {
+const BadgeForm = () => {
   return (
     <>
       <ProForm.Group>
-        <ProFormUploadDragger
-          title="Hình ảnh"
-          description="Kéo thả hình ảnh vào đây"
-          width="md"
-          name="imageUrl"
-        />
+        <ProForm.Item label="Hình ảnh" name="imageUrl">
+          <UploadFile accept="image/*" style={{ height: '100%' }} />
+        </ProForm.Item>
         <ProFormText
           rules={[
             {

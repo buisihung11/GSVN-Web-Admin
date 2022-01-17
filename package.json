@@ -94,6 +94,7 @@
     "@types/express": "^4.17.0",
     "@types/history": "^4.7.2",
     "@types/jest": "^26.0.0",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash": "^4.14.144",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
