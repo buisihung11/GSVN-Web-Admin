@@ -24,6 +24,11 @@ import {
 import ButtonGroup from 'antd/lib/button/button-group';
 import { useState } from 'react';
 import { IRouteComponentProps } from 'umi';
+import provinces from '@/constants/provinces.json';
+import districts from '@/constants/districts.json';
+
+const getProvinceText = (code: string) => provinces.find((p) => p.code === code)?.name ?? code;
+const getDistrictText = (code: string) => districts.find((d) => d.code === code)?.name ?? code;
 
 const extra = (tutor: TTutor) => {
   const status = tutor.userStatus;
@@ -61,7 +66,7 @@ const description = (tutor: TTutor) => (
     </Space>
     <Descriptions size="small" column={1}>
       <Descriptions.Item label="Đường link">
-        <a target="_blank" href={`https://gsvn-deploy.vercel.app/tutor/${tutor.id}/${tutor.slug}`}>
+        <a target="_blank" href={`https://tutorup.edu.vn/tutor/${tutor.id}/${tutor.slug}`}>
           {tutor.fullName}
         </a>
       </Descriptions.Item>
@@ -105,8 +110,8 @@ const teachingInfoSection = (tutor: TTutor) => (
   <>
     <Descriptions title="Thông tin dạy học" size="small" column={2}>
       <Descriptions.Item label="Phương thức">{tutor.teachForm}</Descriptions.Item>
-      <Descriptions.Item label="TP Dạy">{tutor.teachCity}</Descriptions.Item>
-      <Descriptions.Item label="Quận">{tutor.teachDistrict}</Descriptions.Item>
+      <Descriptions.Item label="TP Dạy">{getProvinceText(tutor.teachCity)}</Descriptions.Item>
+      <Descriptions.Item label="Quận">{getDistrictText(tutor.teachDistrict)}</Descriptions.Item>
       <Descriptions.Item label="Địa chỉ">{tutor.teachAddress}</Descriptions.Item>
     </Descriptions>
     <ProTable
@@ -168,7 +173,9 @@ const certificateSection = (tutor: TTutor) => {
             dataSource={certificatesLinks}
             renderItem={(item) => (
               <List.Item>
-                <a href="#">{getFileNameFormFirebaseUrl(item)}</a>
+                <a href={item} target="_blank">
+                  {getFileNameFormFirebaseUrl(item)}
+                </a>
               </List.Item>
             )}
           />

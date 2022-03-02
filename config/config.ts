@@ -65,11 +65,11 @@ export default defineConfig({
     },
     {
       path: '/',
-      redirect: '/admin/tutor',
+      redirect: '/admin/orders',
     },
     {
       path: '/admin',
-      redirect: '/admin/tutor',
+      redirect: '/admin/orders',
     },
     {
       path: '/admin/tutor',
