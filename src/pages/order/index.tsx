@@ -136,6 +136,13 @@ const OrderListPage = () => {
             span: 3,
             renderText: (value) => <strong>{formatCurrency(value)}</strong>,
           },
+          {
+            title: 'Bill',
+            dataIndex: ['bill', 'url'],
+            span: 3,
+            valueType: 'image',
+            // renderText: (value) => <strong>{formatCurrency(value)}</strong>,
+          },
         ]}
       />
       <Divider />
