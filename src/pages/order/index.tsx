@@ -3,12 +3,20 @@ import { buildParamsWithPro } from '@/api/utils';
 import { OrderStatus, TOrder } from '@/type/order';
 import { districtEnums, formatCurrency, provinceEnums } from '@/utils/utils';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import { DrawerForm, ModalForm, ProFormTextArea } from '@ant-design/pro-form';
+import {
+  DrawerForm,
+  ModalForm,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Alert, Button, Col, Divider, Row, Tag } from 'antd';
+import { Alert, Button, Col, Divider, Row, Space, Tag } from 'antd';
 import { useState, useRef } from 'react';
+import { PaymentStatus } from '@/type/constants';
+import { EditOutlined } from '@ant-design/icons';
 
 const valueEnum = {
   null: { text: 'Tất cả', status: 'Default' },
@@ -121,8 +129,56 @@ const OrderListPage = () => {
           {
             title: 'Tình trạng thanh toán',
             dataIndex: 'paymentStatus',
+
             span: 3,
-            render: (_, data) => <Tag>{data.paymentStatus}</Tag>,
+            render: (dom, data) => (
+              <Space direction="vertical">
+                <Tag>{data.paymentStatus}</Tag>
+                <ModalForm
+                  onFinish={(formData) => {
+                    return orderApi.updateOrderPaymentStatus(data.id, formData as any).then(() => {
+                      ref.current?.reload();
+                      setCurrentOrder(null);
+                      return true;
+                    });
+                  }}
+                  trigger={<Button icon={<EditOutlined />}>Cập nhật</Button>}
+                  title="Xác nhận đã thanh toán"
+                >
+                  <ProFormSelect
+                    name="paymentStatus"
+                    label="Trạng thái"
+                    width="md"
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Vui lòng chọn trạng thái',
+                      },
+                    ]}
+                    options={[
+                      {
+                        label: 'Đang xử lý',
+                        value: PaymentStatus.PENDING,
+                      },
+                      {
+                        label: 'Từ chối',
+                        value: PaymentStatus.REJECTED,
+                      },
+                      {
+                        label: 'Đang xử lý',
+                        value: PaymentStatus.SUCCESS,
+                      },
+                      {
+                        label: 'Huỷ',
+                        value: PaymentStatus.CANCELLED,
+                      },
+                    ]}
+                  />
+                  <ProFormText name="reason" label="Ghi chú" />
+                </ModalForm>
+              </Space>
+            ),
           },
           {
             title: 'Tạm tính',
