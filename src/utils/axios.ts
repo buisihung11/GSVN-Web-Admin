@@ -39,9 +39,11 @@ request.interceptors.request.use((options) => {
   if (method === 'put' || method === 'post') {
     Object.assign(options.headers, {
       'Content-Type': 'application/json;charset=UTF-8',
-      Authorization: `Bearer ${getAppToken()}`,
     });
   }
+  Object.assign(options.headers, {
+    Authorization: `Bearer ${getAppToken()}`,
+  });
 
   return options;
 });

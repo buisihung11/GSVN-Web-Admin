@@ -322,6 +322,10 @@ const OrderListPage = () => {
                   : 'Đóng',
                 resetText: 'Quay lại',
               },
+
+              submitButtonProps: {
+                disabled: data.paymentStatus !== PaymentStatus.SUCCESS,
+              },
             }}
             onFinish={() => {
               if (isNeedApprove || canClose) {
