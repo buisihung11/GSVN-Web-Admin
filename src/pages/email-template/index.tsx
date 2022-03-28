@@ -92,9 +92,7 @@ const EmailTemplateListPage = () => {
     <PageContainer>
       <ProTable
         actionRef={ref}
-        search={{
-          layout: 'vertical',
-        }}
+        search={false}
         toolBarRender={() => [
           <Button onClick={() => history.push('/admin/email-template/send')} key="send">
             Gửi email

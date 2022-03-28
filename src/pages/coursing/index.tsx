@@ -35,6 +35,7 @@ const CoursingListPage = () => {
     {
       title: 'Cấp bậc',
       dataIndex: 'coursingLevels',
+      search: false,
       render: (_, { coursingLevels = [] }: TCoursing) => (
         <Space>
           {coursingLevels.map(({ name }) => (
@@ -78,9 +79,7 @@ const CoursingListPage = () => {
     <PageContainer>
       <ProTable
         actionRef={ref}
-        search={{
-          layout: 'vertical',
-        }}
+        search={false}
         toolBarRender={() => [
           <ModalForm
             title="Tạo mới môn học"

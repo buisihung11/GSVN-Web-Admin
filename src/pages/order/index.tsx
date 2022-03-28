@@ -166,7 +166,7 @@ const OrderListPage = () => {
                         value: PaymentStatus.REJECTED,
                       },
                       {
-                        label: 'Đang xử lý',
+                        label: 'Thành công',
                         value: PaymentStatus.SUCCESS,
                       },
                       {
@@ -272,6 +272,7 @@ const OrderListPage = () => {
       valueType: 'fromNow',
       sorter: true,
       defaultSortOrder: 'descend',
+      search: false,
     },
     {
       title: 'Giảng viên',
@@ -364,6 +365,9 @@ const OrderListPage = () => {
       </ModalForm>
       <ProTable<TOrder>
         actionRef={ref}
+        search={{
+          layout: 'vertical',
+        }}
         columns={columns}
         // dataSource={mockData}
         request={(...params) => {

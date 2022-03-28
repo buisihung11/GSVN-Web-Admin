@@ -31,6 +31,7 @@ const TutorListPage = () => {
       dataIndex: 'id',
       key: 'id',
       width: 70,
+      search: false,
     },
     {
       title: 'Tên giảng viên',
@@ -78,6 +79,7 @@ const TutorListPage = () => {
       hideInSearch: true,
       ellipsis: true,
       width: 150,
+      search: false,
     },
     {
       title: 'Mã giới thiệu',
@@ -85,6 +87,7 @@ const TutorListPage = () => {
       hideInSearch: true,
       copyable: true,
       width: 150,
+      search: false,
     },
     {
       title: 'Trạng thái',
@@ -143,6 +146,9 @@ const TutorListPage = () => {
         actionRef={ref}
         scroll={{
           x: 650,
+        }}
+        search={{
+          layout: 'vertical',
         }}
         request={(...params) =>
           tutorApi.get({ ...buildParamsWithPro(...params), roleType: 'tutor' }).then((res) => ({
