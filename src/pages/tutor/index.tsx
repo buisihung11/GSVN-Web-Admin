@@ -36,7 +36,7 @@ const TutorListPage = () => {
     {
       title: 'Tên giảng viên',
       dataIndex: 'fullName',
-      key: 'name',
+      key: 'fullName',
       width: 150,
     },
     {

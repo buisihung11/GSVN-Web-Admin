@@ -35,6 +35,33 @@ const orderEnum = {
   [OrderStatus.CLOSED]: { text: 'Đã đóng', status: 'error' },
 };
 
+const ORDER_OPTIONS = [
+  {
+    label: 'Mới',
+    value: OrderStatus.NEW,
+  },
+  {
+    label: 'Admin đã xác nhận',
+    value: OrderStatus.ADMIN_CONFIRMED,
+  },
+  {
+    label: 'Tutor đã xác nhận',
+    value: OrderStatus.TUTOR_CONFIRMED,
+  },
+  {
+    label: 'Đã thanh toán',
+    value: OrderStatus.PAYMENT_CONFIRMED,
+  },
+  {
+    label: 'Đã hủy',
+    value: OrderStatus.REJECTED,
+  },
+  {
+    label: 'Đã đóng',
+    value: OrderStatus.CLOSED,
+  },
+];
+
 const OrderListPage = () => {
   const ref = useRef<ActionType>();
 
@@ -285,6 +312,7 @@ const OrderListPage = () => {
       valueType: 'select',
       sorter: true,
       valueEnum: orderEnum,
+      renderFormItem: () => <ProFormSelect name="orderStatus" options={ORDER_OPTIONS} />,
     },
     {
       title: 'Môn học',

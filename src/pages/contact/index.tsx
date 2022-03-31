@@ -149,9 +149,7 @@ const ContactRequestPageList = () => {
       <ProTable
         actionRef={ref}
         scroll={{ x: 800 }}
-        search={{
-          layout: 'vertical',
-        }}
+        search={false}
         request={(...params) =>
           contactApi.get(buildParamsWithPro(...params)).then((res) => ({
             data: res.data.items,
