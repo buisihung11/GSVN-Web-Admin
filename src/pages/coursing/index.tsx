@@ -64,7 +64,7 @@ const CoursingListPage = () => {
             }
             onFinish={(values) => {
               return coursingApi
-                .update(data.id, values as TCoursing)
+                .update(data.id, { ...data, ...values } as TCoursing)
                 .then(() => ref.current?.reload());
             }}
           >
