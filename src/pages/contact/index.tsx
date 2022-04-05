@@ -40,6 +40,12 @@ const ContactRequestPageList = () => {
       width: 250,
     },
     {
+      title: 'SDT',
+      dataIndex: 'phone',
+      hideInSearch: true,
+      width: 250,
+    },
+    {
       title: 'Loại',
       dataIndex: 'class',
       width: 250,
