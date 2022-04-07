@@ -19,8 +19,7 @@ import { PaymentStatus } from '@/type/constants';
 import { EditOutlined } from '@ant-design/icons';
 
 const valueEnum = {
-  null: { text: 'Tất cả', status: 'Default' },
-  preferNo: { text: 'Khác', status: 'Default' },
+  both: { text: 'Tất cả', status: 'Default' },
   online: { text: 'Online', status: 'Processing' },
   offline: { text: 'Offline', status: 'Default' },
 };
