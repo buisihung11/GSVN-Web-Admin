@@ -91,10 +91,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         extra={<Button type="primary">Back Home</Button>}
       />
     ),
-    childrenRender: (children: Element) => {
-      // if (initialState?.loading) return <PageLoading />;
-      return <>{children}</>;
-    },
     ...initialState?.settings,
   };
 };
