@@ -251,9 +251,9 @@ export default defineConfig({
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {
-    // basePath: '/admin',
+    basePath: '/admin',
   },
-  // publicPath: process.env.NODE_ENV === 'production' ? '/admin/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/admin/' : '/',
   // Fast Refresh 热更新
   fastRefresh: {},
   nodeModulesTransform: {
